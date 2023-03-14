@@ -3,6 +3,7 @@ package com.wminnovation.myfinances.model.entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,8 +25,7 @@ import jakarta.persistence.GenerationType;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 @Data
-@EqualsAndHashCode
-@ToString
+@Builder
 @Entity
 @Table(name = "lancamento", schema = "financas")
 public class Lancamento {

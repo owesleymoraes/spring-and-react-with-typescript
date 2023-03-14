@@ -1,5 +1,6 @@
 package com.wminnovation.myfinances.model.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 import jakarta.persistence.Id;
@@ -14,8 +15,7 @@ import jakarta.persistence.GenerationType;
 @Entity
 @Table(name = "usuario", schema = "financas")
 @Data
-@EqualsAndHashCode
-@ToString
+@Builder
 public class Usuario {
 
 	@Id
