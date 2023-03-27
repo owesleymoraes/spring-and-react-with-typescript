@@ -1,6 +1,8 @@
 package com.wminnovation.myfinances.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -9,10 +11,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-@Entity
-@Table(name = "usuario", schema = "financas")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "usuario", schema = "financas")
 public class Usuario {
 
 	@Id

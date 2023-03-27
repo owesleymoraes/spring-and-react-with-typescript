@@ -1,9 +1,11 @@
 package com.wminnovation.myfinances.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.wminnovation.myfinances.model.entity.Lancamento;
 
-public interface LancamentoRepsitory extends JpaRepository<Lancamento, Long> {
+@Repository
+public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 
 }

@@ -11,9 +11,9 @@ import com.wminnovation.myfinances.service.UsuarioService;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+	@Autowired
 	private UsuarioRepository repository;
 
-	@Autowired
 	public UsuarioServiceImpl(UsuarioRepository repository) {
 		super();
 		this.repository = repository;
@@ -33,7 +33,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void validarEmail(String email) {
-		boolean existeEsseEmail = repository.existByEmail(email);
+		boolean existeEsseEmail = repository.existsByEmail(email);
 		if (existeEsseEmail) {
 			throw new RegraNegocioException("Já existe um usuário com esse email.");
 		}
