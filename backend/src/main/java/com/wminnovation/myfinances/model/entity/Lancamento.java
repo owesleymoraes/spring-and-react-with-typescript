@@ -1,6 +1,8 @@
 package com.wminnovation.myfinances.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -24,6 +26,8 @@ import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.model.enuns.TipoLancamento;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "lancamento", schema = "financas")
