@@ -1,8 +1,11 @@
 package com.wminnovation.myfinances.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wminnovation.myfinances.exception.ErroDeAutenticacao;
 import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.model.repository.UsuarioRepository;
@@ -23,8 +26,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Usuario> usuario = repository.findByEmail(email);
+
+		// retornando um booelan de verificação de exitência
+		if (!usuario.isPresent()) {
+			throw new ErroDeAutenticacao("Email do usuário não encontrado");
+		}
+
+		// .get irá retornar o objeto que vem após a autenticação
+		if (!usuario.get().getSenha().equals(senha)) {
+			throw new ErroDeAutenticacao("Senha incorreta!");
+		}
+
+		return usuario.get();
 	}
 
 	@Override
