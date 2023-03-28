@@ -1,5 +1,6 @@
 package com.wminnovation.myfinances.model.repository;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,21 @@ public class UsuarioRepositoryTest {
 		// verificação
 		assertTrue(result);
 
+	}
+
+	@Test
+	public void deveRetornarFalsoQuandoNãoHouverCadastroComEmailPassado() {
+		// cenério
+
+		repository.deleteAll();
+
+		// ação
+
+		boolean result = repository.existsByEmail("usuario@email.com");
+
+		// verificação
+
+		assertFalse(result);
 	}
 
 }
