@@ -8,6 +8,8 @@ import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.model.repository.UsuarioRepository;
 import com.wminnovation.myfinances.service.UsuarioService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
@@ -26,9 +28,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
+	@Transactional
 	public Usuario salvarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		validarEmail(usuario.getEmail());
+		return repository.save(usuario);
 	}
 
 	@Override
