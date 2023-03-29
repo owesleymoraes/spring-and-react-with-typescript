@@ -80,8 +80,7 @@ public class UsuarioRepositoryTest {
 		assertThat(usuarioSalvo.getId()).isNotNull();
 	}
 
-	/*
-	 * @Test
+	@Test
 	public void deveBuscarUsuarioPorEmail() {
 		// cenário:
 		Usuario usuario = criaUsuario();
@@ -94,5 +93,4 @@ public class UsuarioRepositoryTest {
 
 		assertThat(userWithThisEmail.isPresent()).isTrue();
 	}
-	 * */
 }
