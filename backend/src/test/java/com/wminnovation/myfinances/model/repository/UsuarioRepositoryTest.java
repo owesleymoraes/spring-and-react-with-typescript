@@ -1,8 +1,12 @@
 package com.wminnovation.myfinances.model.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +32,14 @@ public class UsuarioRepositoryTest {
 	@Autowired
 	TestEntityManager entityManager;
 
+	public static Usuario criaUsuario() {
+		return Usuario.builder().nome("usuario").email("usuario@email.com").build();
+	}
+
 	@Test
 	public void deveVerificarAExistenciaDeUmEmail() {
 		// cenário
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+		Usuario usuario = criaUsuario();
 		entityManager.persist(usuario);
 
 		// ação ou execução - aplicando o teste
@@ -57,4 +65,34 @@ public class UsuarioRepositoryTest {
 		assertFalse(result);
 	}
 
+	@Test
+	public void devePersistirUmUsuarioBaseDeDados() {
+		// cenario
+
+		Usuario usuario = criaUsuario();
+
+		// ação
+
+		Usuario usuarioSalvo = repository.save(usuario);
+
+		// verificação
+
+		assertThat(usuarioSalvo.getId()).isNotNull();
+	}
+
+	/*
+	 * @Test
+	public void deveBuscarUsuarioPorEmail() {
+		// cenário:
+		Usuario usuario = criaUsuario();
+
+		// Ação:
+		entityManager.persist(usuario);
+
+		// verificação:
+		Optional<Usuario> userWithThisEmail = repository.findByEmail("usuario@email.com");
+
+		assertThat(userWithThisEmail.isPresent()).isTrue();
+	}
+	 * */
 }
