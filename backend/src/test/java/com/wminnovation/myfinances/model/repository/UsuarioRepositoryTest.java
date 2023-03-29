@@ -93,4 +93,16 @@ public class UsuarioRepositoryTest {
 
 		assertThat(userWithThisEmail.isPresent()).isTrue();
 	}
+
+	@Test
+	public void retornaVazioQuandoNaoTemUsuarioNaBase() {
+		// cenário:
+
+		// Ação:
+
+		// verificação:
+		Optional<Usuario> userWithThisEmail = repository.findByEmail("usuario@email.com");
+
+		assertThat(userWithThisEmail.isEmpty()).isTrue();
+	}
 }
