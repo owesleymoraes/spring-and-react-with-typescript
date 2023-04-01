@@ -10,6 +10,8 @@ import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.model.repository.LancamentoRepository;
 import com.wminnovation.myfinances.service.LancamentoService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
 
@@ -21,9 +23,10 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
+	@Transactional
 	public Lancamento salvarLancamento(Lancamento lancamento) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repository.save(lancamento);
 	}
 
 	@Override
