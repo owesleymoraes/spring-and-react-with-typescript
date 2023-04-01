@@ -7,11 +7,13 @@ import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 
 public interface LancamentoService {
 
+	void validarLancamento(Lancamento lancamento);
+
+	void deletarLancamento(Lancamento lancamento);
+
 	Lancamento salvarLancamento(Lancamento lancamento);
 
 	Lancamento atualizarLancamento(Lancamento lancamento);
-
-	void deletarLancamento(Lancamento lancamento);
 
 	List<Lancamento> buscarLancamento(Lancamento lancamentoFiltrado);
 

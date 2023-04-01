@@ -15,8 +15,6 @@ import com.wminnovation.myfinances.service.LancamentoService;
 import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.model.repository.LancamentoRepository;
 
-
-
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
 
@@ -50,7 +48,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public List<Lancamento> buscarLancamento(Lancamento lancamentoFiltrado) {
 		Example example = Example.of(lancamentoFiltrado,
 				ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING));
