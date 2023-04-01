@@ -1,16 +1,17 @@
 package com.wminnovation.myfinances.service;
 
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 
 import com.wminnovation.myfinances.model.entity.Usuario;
 
-
 public interface UsuarioService {
 
-	Usuario autenticar(String email, String senha);
+	void validarEmail(String email);
+
+	Optional<Usuario> obterUsuarioPorId(Long id);
 
 	Usuario salvarUsuario(Usuario usuario);
 
-	void validarEmail(String email);
+	Usuario autenticar(String email, String senha);
 
 }
