@@ -1,20 +1,19 @@
 package com.wminnovation.myfinances.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.math.BigDecimal;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 
-import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.service.LancamentoService;
 import com.wminnovation.myfinances.model.enuns.StatusLancamento;
+import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.repository.LancamentoRepository;
 
 @Service
@@ -32,6 +31,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	public Lancamento salvarLancamento(Lancamento lancamento) {
 
 		validarLancamento(lancamento);
+		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repository.save(lancamento);
 	}
 
@@ -39,6 +39,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Transactional
 	public Lancamento atualizarLancamento(Lancamento lancamento) {
 		Objects.requireNonNull(lancamento.getId());
+		validarLancamento(lancamento);
 		return repository.save(lancamento);
 	}
 
@@ -87,8 +88,8 @@ public class LancamentoServiceImpl implements LancamentoService {
 		if (lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
 			throw new RegraNegocioException("Informe um Valor válido.");
 		}
-		
-		if (lancamento.getTipo() == null ) {
+
+		if (lancamento.getTipo() == null) {
 			throw new RegraNegocioException("Informe um Tipo de lançamento válido.");
 		}
 	}

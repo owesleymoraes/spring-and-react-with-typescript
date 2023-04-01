@@ -8,7 +8,7 @@ public interface UsuarioService {
 
 	void validarEmail(String email);
 
-	Optional<Usuario> obterUsuarioPorIp(Long id);
+	Optional<Usuario> obterUsuarioPorId(Long id);
 
 	Usuario salvarUsuario(Usuario usuario);
 
