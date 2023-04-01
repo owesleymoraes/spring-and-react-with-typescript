@@ -52,8 +52,10 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
+	@Transactional
 	public void atualizaStatusLancemento(Lancamento lancamneto, StatusLancamento status) {
-		// TODO Auto-generated method stub
+		lancamneto.setStatus(status);
+		atualizarLancamento(lancamneto);
 
 	}
 
