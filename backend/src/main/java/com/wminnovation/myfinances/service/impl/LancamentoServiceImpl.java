@@ -1,5 +1,6 @@
 package com.wminnovation.myfinances.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 
+import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.service.LancamentoService;
 import com.wminnovation.myfinances.model.enuns.StatusLancamento;
@@ -61,6 +63,33 @@ public class LancamentoServiceImpl implements LancamentoService {
 		lancamneto.setStatus(status);
 		atualizarLancamento(lancamneto);
 
+	}
+
+	@Override
+	public void validarLancamento(Lancamento lancamento) {
+		if (lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
+			throw new RegraNegocioException("Informe uma Descrição válida");
+		}
+
+		if (lancamento.getMes() == null || lancamento.getMes() < 1 || lancamento.getMes() > 12) {
+			throw new RegraNegocioException("Informe um Mês válido.");
+		}
+
+		if (lancamento.getAno() == null || lancamento.getAno().toString().length() != 4) {
+			throw new RegraNegocioException("Informe um Ano válido.");
+		}
+
+		if (lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
+			throw new RegraNegocioException("Informe um Usuário válido.");
+		}
+
+		if (lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
+			throw new RegraNegocioException("Informe um Valor válido.");
+		}
+		
+		if (lancamento.getTipo() == null ) {
+			throw new RegraNegocioException("Informe um Tipo de lançamento válido.");
+		}
 	}
 
 }
