@@ -1,6 +1,7 @@
 package com.wminnovation.myfinances.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,17 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
+	@Transactional
 	public Lancamento atualizarLancamento(Lancamento lancamento) {
-		// TODO Auto-generated method stub
-		return null;
+		Objects.requireNonNull(lancamento.getId());
+		return repository.save(lancamento);
 	}
 
 	@Override
+	@Transactional
 	public void deletarLancamento(Lancamento lancamento) {
-		// TODO Auto-generated method stub
+		Objects.requireNonNull(lancamento.getId());
+		repository.delete(lancamento);
 
 	}
 
