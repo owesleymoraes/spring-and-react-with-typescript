@@ -31,6 +31,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Transactional
 	public Lancamento salvarLancamento(Lancamento lancamento) {
 
+		validarLancamento(lancamento);
 		return repository.save(lancamento);
 	}
 
