@@ -2,6 +2,7 @@ package com.wminnovation.myfinances.service.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.math.BigDecimal;
 
 import jakarta.transaction.Transactional;
@@ -92,6 +93,12 @@ public class LancamentoServiceImpl implements LancamentoService {
 		if (lancamento.getTipo() == null) {
 			throw new RegraNegocioException("Informe um Tipo de lançamento válido.");
 		}
+	}
+
+	@Override
+	public Optional<Lancamento> ObterLancamentoPeloId(Long id) {
+
+		return repository.findById(id);
 	}
 
 }

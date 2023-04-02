@@ -1,6 +1,7 @@
 package com.wminnovation.myfinances.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.model.enuns.StatusLancamento;
@@ -12,6 +13,8 @@ public interface LancamentoService {
 	void deletarLancamento(Lancamento lancamento);
 
 	Lancamento salvarLancamento(Lancamento lancamento);
+
+	Optional<Lancamento> ObterLancamentoPeloId(Long id);
 
 	Lancamento atualizarLancamento(Lancamento lancamento);
 
