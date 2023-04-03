@@ -77,4 +77,12 @@ public class LancamentoResource {
 
 	}
 
+	public ResponseEntity deletarLancamento(@PathVariable("id") Long id) {
+		return service.ObterLancamentoPeloId(id).map(item -> {
+			service.deletarLancamento(item);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados.", HttpStatus.BAD_REQUEST));
+
+	}
+
 }
