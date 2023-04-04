@@ -74,7 +74,7 @@ public class LancamentoResource {
 		}
 	}
 
-	@PutMapping({ "id" })
+	@PutMapping("{id}")
 	public ResponseEntity atualizarLancamento(@PathVariable("id") Long id, @RequestBody LancamentoDTO dto) {
 		// primeiro buscar na base dados o id informado.
 
