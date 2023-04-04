@@ -48,8 +48,16 @@ public class LancamentoResource {
 				.orElseThrow(() -> new RegraNegocioException("Usuário não encontrado para o Id iformado."));
 
 		lancamentoEntity.setUsuario(usuario);
-		lancamentoEntity.setTipo(TipoLancamento.valueOf(dtoToConvert.getTipo()));
-		lancamentoEntity.setStatus(StatusLancamento.valueOf(dtoToConvert.getStatus()));
+		if (dtoToConvert.getTipo() != null) {
+
+			lancamentoEntity.setTipo(TipoLancamento.valueOf(dtoToConvert.getTipo()));
+		}
+
+		if (dtoToConvert.getStatus() != null) {
+
+			lancamentoEntity.setStatus(StatusLancamento.valueOf(dtoToConvert.getStatus()));
+
+		}
 
 		return lancamentoEntity;
 
