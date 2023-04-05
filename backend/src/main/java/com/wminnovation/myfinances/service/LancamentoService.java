@@ -14,7 +14,7 @@ public interface LancamentoService {
 
 	Lancamento salvarLancamento(Lancamento lancamento);
 
-	Optional<Lancamento> ObterLancamentoPeloId(Long id);
+	Optional<Lancamento> obterLancamentoPeloId(Long id);
 
 	Lancamento atualizarLancamento(Lancamento lancamento);
 
