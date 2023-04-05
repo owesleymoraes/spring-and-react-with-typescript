@@ -14,6 +14,7 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.service.LancamentoService;
 import com.wminnovation.myfinances.model.enuns.StatusLancamento;
+import com.wminnovation.myfinances.model.enuns.TipoLancamento;
 import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.repository.LancamentoRepository;
 
@@ -99,6 +100,24 @@ public class LancamentoServiceImpl implements LancamentoService {
 	public Optional<Lancamento> obterLancamentoPeloId(Long id) {
 
 		return repository.findById(id);
+	}
+
+	@Override
+	public BigDecimal obterSaldoPorUsuario(Long id) {
+		// .name transforma a enum em string
+		BigDecimal receitas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.RECEITA.name());
+		BigDecimal despesas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.DESPESA.name());
+
+		if (receitas == null) {
+			receitas = BigDecimal.ZERO;
+		}
+
+		if (despesas == null) {
+			despesas = BigDecimal.ZERO;
+		}
+
+		return receitas.subtract(despesas);
+
 	}
 
 }
