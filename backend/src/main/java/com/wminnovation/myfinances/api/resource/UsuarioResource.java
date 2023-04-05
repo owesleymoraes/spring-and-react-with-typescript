@@ -28,13 +28,8 @@ import com.wminnovation.myfinances.exception.RegraNegocioException;
 @RequiredArgsConstructor
 public class UsuarioResource {
 
-	private UsuarioService service;
-	private LancamentoService lancamentoService;
-
-	public UsuarioResource(UsuarioService service, LancamentoService lancamentoService) {
-		this.service = service;
-		this.lancamentoService = lancamentoService;
-	}
+	private final UsuarioService service;
+	private final LancamentoService lancamentoService;
 
 	@PostMapping("/autenticar")
 	public ResponseEntity<?> autenticarUsuario(@RequestBody UsuarioDTO dto) {

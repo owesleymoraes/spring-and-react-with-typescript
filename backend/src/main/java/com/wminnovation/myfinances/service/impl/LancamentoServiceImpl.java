@@ -103,10 +103,11 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
+	@Transactional
 	public BigDecimal obterSaldoPorUsuario(Long id) {
 		// .name transforma a enum em string
-		BigDecimal receitas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.RECEITA.name());
-		BigDecimal despesas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.DESPESA.name());
+		BigDecimal receitas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.RECEITA);
+		BigDecimal despesas = repository.obterSaldoPotTipoDeLancamento(id, TipoLancamento.DESPESA);
 
 		if (receitas == null) {
 			receitas = BigDecimal.ZERO;
