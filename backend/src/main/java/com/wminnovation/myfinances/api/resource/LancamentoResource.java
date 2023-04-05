@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
+import com.wminnovation.myfinances.api.dto.AtualizaStatusDTO;
 import com.wminnovation.myfinances.api.dto.LancamentoDTO;
 import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.entity.Lancamento;
@@ -78,7 +79,7 @@ public class LancamentoResource {
 	public ResponseEntity atualizarLancamento(@PathVariable("id") Long id, @RequestBody LancamentoDTO dto) {
 		// primeiro buscar na base dados o id informado.
 
-		return service.ObterLancamentoPeloId(id).map(item -> {
+		return service.obterLancamentoPeloId(id).map(item -> {
 			try {
 				Lancamento lancamento = convertDTOToEntity(dto);
 				lancamento.setId(item.getId());
@@ -95,7 +96,7 @@ public class LancamentoResource {
 
 	@DeleteMapping("{id}")
 	public ResponseEntity deletarLancamento(@PathVariable("id") Long id) {
-		return service.ObterLancamentoPeloId(id).map(item -> {
+		return service.obterLancamentoPeloId(id).map(item -> {
 			service.deletarLancamento(item);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados.", HttpStatus.BAD_REQUEST));
@@ -124,6 +125,29 @@ public class LancamentoResource {
 
 		List<Lancamento> lancamentos = service.buscarLancamento(lancamentoFiltrado);
 		return ResponseEntity.ok(lancamentos);
+
+	}
+
+	@PutMapping("{id}/atualiza-status")
+	public ResponseEntity atualizaStatusLancamento(@PathVariable("id") Long id, @RequestBody AtualizaStatusDTO dto) {
+		return service.obterLancamentoPeloId(id).map(item -> {
+
+			StatusLancamento statusSelecionado = StatusLancamento.valueOf(dto.getStatus());
+
+			if (statusSelecionado == null) {
+				return ResponseEntity.badRequest()
+						.body("Não foi possível atualizar o status do lancamento, envie um status válido");
+			}
+			try {
+				item.setStatus(statusSelecionado);
+				service.atualizarLancamento(item);
+				return ResponseEntity.ok(item);
+
+			} catch (RegraNegocioException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+
+		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados.", HttpStatus.BAD_REQUEST));
 
 	}
 }
