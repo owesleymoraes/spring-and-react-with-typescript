@@ -1,5 +1,6 @@
 package com.wminnovation.myfinances.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,13 +9,15 @@ import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 
 public interface LancamentoService {
 
+	BigDecimal obterSaldoPorUsuario(Long id);
+
 	void validarLancamento(Lancamento lancamento);
 
 	void deletarLancamento(Lancamento lancamento);
 
 	Lancamento salvarLancamento(Lancamento lancamento);
 
-	Optional<Lancamento> ObterLancamentoPeloId(Long id);
+	Optional<Lancamento> obterLancamentoPeloId(Long id);
 
 	Lancamento atualizarLancamento(Lancamento lancamento);
 
