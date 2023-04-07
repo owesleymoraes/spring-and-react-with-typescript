@@ -13,8 +13,8 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.service.LancamentoService;
-import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.model.enuns.TipoLancamento;
+import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.exception.RegraNegocioException;
 import com.wminnovation.myfinances.model.repository.LancamentoRepository;
 
