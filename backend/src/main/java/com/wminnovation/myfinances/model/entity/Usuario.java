@@ -1,10 +1,10 @@
 package com.wminnovation.myfinances.model.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

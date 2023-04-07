@@ -1,20 +1,20 @@
 package com.wminnovation.myfinances.model.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Convert;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +22,8 @@ import jakarta.persistence.GenerationType;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 import com.wminnovation.myfinances.model.enuns.TipoLancamento;
+import com.wminnovation.myfinances.model.enuns.StatusLancamento;
 
 @Data
 @NoArgsConstructor

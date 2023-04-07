@@ -2,10 +2,10 @@ package com.wminnovation.myfinances.model.repository;
 
 import java.math.BigDecimal;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.wminnovation.myfinances.model.entity.Lancamento;
 import com.wminnovation.myfinances.model.enuns.TipoLancamento;
