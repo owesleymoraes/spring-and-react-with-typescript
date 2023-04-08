@@ -23,6 +23,7 @@ export const Login: React.FC = () => {
           id="inputEmailFirst"
           ariaDescribedby="emailHelp"
           placeholder="nome@email.com"
+          name="email"
         />
 
         <Input
@@ -33,6 +34,7 @@ export const Login: React.FC = () => {
           placeholder="**********"
           id="inputPasswordFirst"
           ariaDescribedby="password"
+          name="password"
         />
 
         <Button
