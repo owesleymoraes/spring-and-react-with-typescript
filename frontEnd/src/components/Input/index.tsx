@@ -2,6 +2,7 @@ import React, { HtmlHTMLAttributes } from "react";
 
 interface InputProps {
   id?: string;
+  name?: string;
   type: string;
   label: string;
   value: string;
@@ -34,6 +35,7 @@ export const Input: React.FC<InputProps> = ({
         id={id}
         aria-describedby={ariaDescribedby}
         placeholder={placeholder}
+        name=""
       />
     </div>
   );
