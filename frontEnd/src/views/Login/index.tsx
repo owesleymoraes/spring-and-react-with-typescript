@@ -3,14 +3,19 @@ import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleClickEntry = () => {};
 
-  const handleClickRegister = () => {};
+  const handleClickRegister = () => {
+    navigate("/cadastrar")
+  };
 
   return (
     <Container>
