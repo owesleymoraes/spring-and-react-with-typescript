@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { FieldRegister } from "../../components/FieldRegister";
 
 export const CadastroUsuario: React.FC = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +15,9 @@ export const CadastroUsuario: React.FC = () => {
 
   const handleClickRegister = () => {};
 
-  const handleClickGoBack = () => {};
+  const handleClickGoBack = () => {
+    navigate("/login");
+  };
 
   return (
     <div className="container">
