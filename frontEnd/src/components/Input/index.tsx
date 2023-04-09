@@ -9,6 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input: React.FC<InputProps> = ({
   id,
   type,
+  name,
   label,
   value,
   placeholder,
@@ -30,7 +31,7 @@ export const Input: React.FC<InputProps> = ({
         id={id}
         aria-describedby={ariaDescribedby}
         placeholder={placeholder}
-        name=""
+        name={name}
       />
     </div>
   );
