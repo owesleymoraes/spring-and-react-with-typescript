@@ -17,7 +17,7 @@ export const Login: React.FC = () => {
       <Card title="Login">
         <Input
           value={email}
-          onChange={(e) => setEmail(e)}
+          onChangeValue={(e) => setEmail(e)}
           type="email"
           label="Email"
           id="inputEmailFirst"
@@ -28,7 +28,7 @@ export const Login: React.FC = () => {
 
         <Input
           value={password}
-          onChange={(e) => setPassword(e)}
+          onChangeValue={(e) => setPassword(e)}
           label="Senha"
           type="password"
           placeholder="**********"
