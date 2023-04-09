@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { FieldRegister } from "../../components/FieldRegister";
 
 export const CadastroUsuario: React.FC = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +15,9 @@ export const CadastroUsuario: React.FC = () => {
 
   const handleClickRegister = () => {};
 
-  const handleClickGoBack = () => {};
+  const handleClickGoBack = () => {
+    navigate("/login");
+  };
 
   return (
     <div className="container">
@@ -20,7 +25,7 @@ export const CadastroUsuario: React.FC = () => {
         <FieldRegister>
           <Input
             value={name}
-            onChange={(e) => setName(e)}
+            onChangeValue={(e) => setName(e)}
             type="text"
             label="Nome"
             id="inputNameRegister"
@@ -31,7 +36,7 @@ export const CadastroUsuario: React.FC = () => {
 
           <Input
             value={email}
-            onChange={(e) => setEmail(e)}
+            onChangeValue={(e) => setEmail(e)}
             type="email"
             label="Email "
             id="inputEmailRegister"
@@ -42,7 +47,7 @@ export const CadastroUsuario: React.FC = () => {
 
           <Input
             value={password}
-            onChange={(e) => setPassword(e)}
+            onChangeValue={(e) => setPassword(e)}
             type="password"
             label="Senha "
             id="inputPasswordRegister"
@@ -53,7 +58,7 @@ export const CadastroUsuario: React.FC = () => {
 
           <Input
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e)}
+            onChangeValue={(e) => setConfirmPassword(e)}
             type="password"
             label="Repita a Senha "
             id="inputValidatedPasswordRegister"

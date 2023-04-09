@@ -1,8 +1,13 @@
 import React from "react";
-import { Login } from "./views/Login";
+import { AppRoute } from "./_app-routes";
 import "bootswatch/dist/flatly/bootstrap.css";
-import { CadastroUsuario } from "./views/CadastroUsuario";
+import { Navbar } from "./components/Navbar";
 
 export const App: React.FC = () => {
-  return <CadastroUsuario />;
+  return (
+    <>
+      <Navbar />
+      <AppRoute />
+    </>
+  );
 };

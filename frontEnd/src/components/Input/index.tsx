@@ -1,27 +1,23 @@
-import React, { HtmlHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 
-interface InputProps {
-  id?: string;
-  name?: string;
-  type: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  value: string;
-  placeholder: string;
   ariaDescribedby?: string;
-  onChange: (value: string) => void;
+  onChangeValue: (value: string) => void;
 }
 
 export const Input: React.FC<InputProps> = ({
   id,
   type,
+  name,
   label,
   value,
   placeholder,
   ariaDescribedby,
-  onChange,
+  onChangeValue,
 }) => {
   const handleChange = (value: string) => {
-    onChange(value);
+    onChangeValue(value);
   };
 
   return (
@@ -35,7 +31,7 @@ export const Input: React.FC<InputProps> = ({
         id={id}
         aria-describedby={ariaDescribedby}
         placeholder={placeholder}
-        name=""
+        name={name}
       />
     </div>
   );

@@ -3,21 +3,26 @@ import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleClickEntry = () => {};
 
-  const handleClickRegister = () => {};
+  const handleClickRegister = () => {
+    navigate("/cadastrar")
+  };
 
   return (
     <Container>
       <Card title="Login">
         <Input
           value={email}
-          onChange={(e) => setEmail(e)}
+          onChangeValue={(e) => setEmail(e)}
           type="email"
           label="Email"
           id="inputEmailFirst"
@@ -28,7 +33,7 @@ export const Login: React.FC = () => {
 
         <Input
           value={password}
-          onChange={(e) => setPassword(e)}
+          onChangeValue={(e) => setPassword(e)}
           label="Senha"
           type="password"
           placeholder="**********"
