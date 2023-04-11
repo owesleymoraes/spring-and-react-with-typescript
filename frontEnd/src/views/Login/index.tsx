@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
-import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -11,10 +12,22 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleClickEntry = () => {};
+  const handleClickEntry = () => {
+    axios
+      .post("http://localhost:8080/api/usuarios/autenticar", {
+        email: email,
+        senha: password,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        error.response;
+      });
+  };
 
   const handleClickRegister = () => {
-    navigate("/cadastrar")
+    navigate("/cadastrar");
   };
 
   return (
