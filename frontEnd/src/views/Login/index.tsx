@@ -11,6 +11,8 @@ export const Login: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+  const [messageError, setMessageError] = useState("");
 
   const handleClickEntry = () => {
     axios
@@ -19,10 +21,17 @@ export const Login: React.FC = () => {
         senha: password,
       })
       .then((response) => {
-        console.log(response);
+        setUserId(JSON.stringify(response.data.id));
+        localStorage.setItem("user_logged", JSON.stringify(response.data));
+        navigate("/home", {
+          state: {
+            logged: true,
+            id: userId,
+          },
+        });
       })
       .catch((error) => {
-        error.response;
+        setMessageError(error.response.data);
       });
   };
 
@@ -33,6 +42,9 @@ export const Login: React.FC = () => {
   return (
     <Container>
       <Card title="Login">
+        <div className="row">
+          <span>{messageError}</span>
+        </div>
         <Input
           value={email}
           onChangeValue={(e) => setEmail(e)}
