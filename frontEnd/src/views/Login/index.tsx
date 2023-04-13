@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
 import { UsuarioService } from "../../_app/service/userService";
+import { LocalStorageService } from "../../_app/service/localStorageService";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -21,13 +22,8 @@ export const Login: React.FC = () => {
       .autenticar({ email: email, senha: password })
       .then((response) => {
         setUserId(JSON.stringify(response.data.id));
-        localStorage.setItem("user_logged", JSON.stringify(response.data));
-        navigate("/home", {
-          state: {
-            logged: true,
-            id: userId,
-          },
-        });
+        LocalStorageService.addItemLocalStorage("user_logged", response.data);
+        navigate("/home");
       })
       .catch((error) => {
         setMessageError(error.response.data);
