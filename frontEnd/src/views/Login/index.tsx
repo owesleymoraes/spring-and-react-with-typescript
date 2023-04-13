@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
+import { UsuarioService } from "../../_app/service/userService";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -14,12 +14,11 @@ export const Login: React.FC = () => {
   const [userId, setUserId] = useState("");
   const [messageError, setMessageError] = useState("");
 
+  const service = new UsuarioService();
+
   const handleClickEntry = () => {
-    axios
-      .post("http://localhost:8080/api/usuarios/autenticar", {
-        email: email,
-        senha: password,
-      })
+    service
+      .autenticar({ email: email, senha: password })
       .then((response) => {
         setUserId(JSON.stringify(response.data.id));
         localStorage.setItem("user_logged", JSON.stringify(response.data));
