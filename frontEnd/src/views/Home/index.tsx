@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { UsuarioService } from "../../_app/service/userService";
+import { LocalStorageService } from "../../_app/service/localStorageService";
 
 export const Home: React.FC = () => {
   const [balance, setBalance] = useState(0);
 
-  useEffect(() => {
-    const userLogger = JSON.parse(localStorage.getItem("user_logged")!);
+  const usuarioService = new UsuarioService();
 
-    if (userLogger) {
-      axios
-        .get(`http://localhost:8080/api/usuarios/${userLogger.id}/saldo`)
-        .then((response) => {
-          setBalance(response.data);
-        })
-        .catch((error) => {
-          alert("Error to login: " + error.response);
-        });
-    }
+  useEffect(() => {
+    const userLogger = LocalStorageService.getItemLocalStorage("user_logged");
+
+    usuarioService
+      .obterSaldoPorUsuario(userLogger?.id)
+      .then((response) => {
+        setBalance(response.data);
+      })
+      .catch((error) => {
+        alert("Error to login: " + error.response);
+      });
   }, []);
 
   return (
