@@ -6,6 +6,7 @@ import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
 import { UsuarioService } from "../../_app/service/userService";
 import { LocalStorageService } from "../../_app/service/localStorageService";
+import { showMessageError } from "../../components/Toastr";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -13,8 +14,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
-  const [messageError, setMessageError] = useState("");
-
+  
   const service = new UsuarioService();
 
   const handleClickEntry = () => {
@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
         navigate("/home");
       })
       .catch((error) => {
-        setMessageError(error.response.data);
+        showMessageError(error.response.data);
       });
   };
 
@@ -37,9 +37,6 @@ export const Login: React.FC = () => {
   return (
     <Container>
       <Card title="Login">
-        <div className="row">
-          <span>{messageError}</span>
-        </div>
         <Input
           value={email}
           onChangeValue={(e) => setEmail(e)}
