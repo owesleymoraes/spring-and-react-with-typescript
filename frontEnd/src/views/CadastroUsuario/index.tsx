@@ -4,16 +4,38 @@ import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { FieldRegister } from "../../components/FieldRegister";
+import { UsuarioService } from "../../_app/service/userService";
+import { showMessageError, showMessageSuccess } from "../../components/Toastr";
 
 export const CadastroUsuario: React.FC = () => {
   const navigate = useNavigate();
+
+  const service = new UsuarioService();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleClickRegister = () => {};
+  const handleClickRegister = () => {
+    const user = {
+      nome: name,
+      email: email,
+      senha: password,
+    };
+
+    service
+      .salvar(user)
+      .then((response) => {
+        showMessageSuccess("Usuário cadastrado com sucesso. Faça o login.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      })
+      .catch((error) => {
+        showMessageError(error.response?.data);
+      });
+  };
 
   const handleClickGoBack = () => {
     navigate("/login");
@@ -32,6 +54,7 @@ export const CadastroUsuario: React.FC = () => {
             ariaDescribedby="name"
             placeholder="Ex: José Pereira"
             name="nome"
+            required = {true}
           />
 
           <Input
@@ -43,6 +66,7 @@ export const CadastroUsuario: React.FC = () => {
             ariaDescribedby="emailRegister"
             placeholder="meuemail@email.com"
             name="email"
+            required
           />
 
           <Input
@@ -54,6 +78,7 @@ export const CadastroUsuario: React.FC = () => {
             ariaDescribedby="passwordRegister"
             placeholder="**********"
             name="senha"
+            required
           />
 
           <Input
@@ -65,6 +90,7 @@ export const CadastroUsuario: React.FC = () => {
             ariaDescribedby="validatedPasswordRegister"
             placeholder="**********"
             name="confirmaSenha"
+            required
           />
 
           <Button
