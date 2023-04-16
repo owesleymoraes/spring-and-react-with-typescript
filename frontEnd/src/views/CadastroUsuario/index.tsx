@@ -20,7 +20,7 @@ export const CadastroUsuario: React.FC = () => {
   const [hasNumber, setHasNumber] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [specialCharacter, setSpecialCharacter] = useState(false);
-  const [passwordValidated, setPasswordValidated] = useState(false);
+  
 
   const validatedPassword = (password: string) => {
     if (!password.match(/[A-Z]/)) {
