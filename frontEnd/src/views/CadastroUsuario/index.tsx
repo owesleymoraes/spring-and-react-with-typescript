@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { FieldRegister } from "../../components/FieldRegister";
 import { UsuarioService } from "../../_app/service/userService";
-import { showMessageError, showMessageSuccess } from "../../components/Toastr";
 import { MessageValidated } from "../../components/MessageValidated";
+import { ContainerRegister } from "../../components/ConatinerRegister";
+import { showMessageError, showMessageSuccess } from "../../components/Toastr";
 
 export const CadastroUsuario: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export const CadastroUsuario: React.FC = () => {
   const [hasNumber, setHasNumber] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [specialCharacter, setSpecialCharacter] = useState(false);
-  
 
   const validatedPassword = (password: string) => {
     if (!password.match(/[A-Z]/)) {
@@ -115,9 +115,9 @@ export const CadastroUsuario: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <ContainerRegister>
       <Card title="Cadastro de Usuário">
-        <FieldRegister>
+        <FieldRegister widthField={12}>
           <Input
             value={name}
             onChangeValue={(e) => setName(e)}
@@ -187,6 +187,6 @@ export const CadastroUsuario: React.FC = () => {
           </MessageValidated>
         </>
       )}
-    </div>
+    </ContainerRegister>
   );
 };
