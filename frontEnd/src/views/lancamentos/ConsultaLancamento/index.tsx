@@ -1,10 +1,11 @@
 import React from "react";
-import { Card } from "../../components/Card";
-import { Input } from "../../components/Input";
-import { FieldRegister } from "../../components/FieldRegister";
-import { OptionsSelect, Select } from "../../components/Select";
-import { ContainerRegister } from "../../components/ConatinerRegister";
-import { Button } from "../../components/Button";
+import { Card } from "../../../components/Card";
+import { Input } from "../../../components/Input";
+import { FieldRegister } from "../../../components/FieldRegister";
+import { OptionsSelect, Select } from "../../../components/Select";
+import { ContainerRegister } from "../../../components/ConatinerRegister";
+import { Button } from "../../../components/Button";
+import { LancamentoTable } from "./LancamentoTable";
 
 export const ConsultaLancamento: React.FC = () => {
   const months: OptionsSelect[] = [
@@ -27,6 +28,31 @@ export const ConsultaLancamento: React.FC = () => {
     { value: "", label: "Selecione..." },
     { value: "DESPESA", label: "Despesa" },
     { value: "RECEITA", label: "Receita" },
+  ];
+
+  const lancamnetosMocked = [
+    {
+      descricao: "salario",
+      valor: 5000,
+      tipo: "Receita",
+      mes: 1,
+      status: "Efetivado",
+    },
+    {
+      descricao: "salario",
+      valor: 5000,
+      tipo: "Receita",
+      mes: 1,
+      status: "Efetivado",
+    },
+
+    {
+      descricao: "salario",
+      valor: 5000,
+      tipo: "Receita",
+      mes: 1,
+      status: "Efetivado",
+    },
   ];
 
   return (
@@ -54,9 +80,12 @@ export const ConsultaLancamento: React.FC = () => {
             options={releaseTypes}
           />
 
+          <br />
           <Button title="Salvar" typeButton="success" onClick={() => {}} />
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
+        <br />
+        <LancamentoTable lancamentos={lancamnetosMocked} />
       </Card>
     </ContainerRegister>
   );
