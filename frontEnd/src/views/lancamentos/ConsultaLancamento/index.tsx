@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "../../../components/Card";
 import { Input } from "../../../components/Input";
+import { LancamentoTable } from "./LancamentoTable";
+import { Button } from "../../../components/Button";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { OptionsSelect, Select } from "../../../components/Select";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
-import { Button } from "../../../components/Button";
-import { LancamentoTable } from "./LancamentoTable";
 
 export const ConsultaLancamento: React.FC = () => {
+  const [ano, setAno] = useState<string>();
+  const [mes, setMes] = useState<string>();
+  const [tipo, setTipo] = useState<string>();
+
+  const test = () => {
+    console.log(ano);
+    console.log(mes);
+    console.log(tipo);
+    setAno("");
+    setMes("");
+    setTipo("");
+  };
+
   const months: OptionsSelect[] = [
     { value: "", label: "Selecione..." },
     { value: "1", label: "Janeiro" },
@@ -61,19 +74,24 @@ export const ConsultaLancamento: React.FC = () => {
         <FieldRegister widthField={6}>
           <Input
             label="Ano"
+            value={ano}
             placeholder="Ex: 2023"
-            onChangeValue={() => {}}
+            onChangeValue={(e) => setAno(e)}
             id="inputNameRegister"
             ariaDescribedby="name"
             name="nome"
           />
           <Select
+            value={mes}
+            onChange={(e) => setMes(e.target.value)}
             className="form-control"
             label="Mês"
             id="inputMes"
             options={months}
           />
           <Select
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
             className="form-control"
             label="Tipo"
             id="inputTipo"
@@ -81,7 +99,7 @@ export const ConsultaLancamento: React.FC = () => {
           />
 
           <br />
-          <Button title="Salvar" typeButton="success" onClick={() => {}} />
+          <Button title="Salvar" typeButton="success" onClick={test} />
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
         <br />
