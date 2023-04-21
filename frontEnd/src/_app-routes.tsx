@@ -3,7 +3,7 @@ import { Home } from "./views/Home";
 import { Login } from "./views/Login";
 import { CadastroUsuario } from "./views/CadastroUsuario";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ConsultaLancamento } from "./views/ConsultaLancamento";
+import { ConsultaLancamento } from "./views/lancamentos/ConsultaLancamento";
 
 export const AppRoute: React.FC = () => {
   return (
