@@ -6,20 +6,24 @@ import { Button } from "../../../components/Button";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { OptionsSelect, Select } from "../../../components/Select";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
+import {
+  LancamentoService,
+  lancamentos,
+} from "../../../_app/service/lancamentoService";
+import { LocalStorageService } from "../../../_app/service/localStorageService";
 
 export const ConsultaLancamento: React.FC = () => {
+  const lancamentosService = new LancamentoService();
+
+  const userLogger = LocalStorageService.getItemLocalStorage("user_logged");
+
   const [ano, setAno] = useState<string>();
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
+  const [lancamento, setLancamento] = useState([]);
+  const [descricao, setDescricao] = useState<string>();
 
-  const test = () => {
-    console.log(ano);
-    console.log(mes);
-    console.log(tipo);
-    setAno("");
-    setMes("");
-    setTipo("");
-  };
+  let enableButton = ano ? false : true;
 
   const months: OptionsSelect[] = [
     { value: "", label: "Selecione..." },
@@ -43,7 +47,7 @@ export const ConsultaLancamento: React.FC = () => {
     { value: "RECEITA", label: "Receita" },
   ];
 
-  const lancamnetosMocked = [
+  const lancamentosMocked = [
     {
       descricao: "salario",
       valor: 5000,
@@ -68,6 +72,25 @@ export const ConsultaLancamento: React.FC = () => {
     },
   ];
 
+  const handleClickConsult = () => {
+    const lancamentoFiltro: lancamentos = {
+      ano: Number(ano),
+      mes: Number(mes),
+      tipo: tipo!,
+      descricao: descricao,
+      usuarioId: userLogger?.id,
+    };
+
+    lancamentosService
+      .consultaLancamento(lancamentoFiltro)
+      .then((response) => {
+        setLancamento(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <ContainerRegister>
       <Card title="Consulta Lançamentos">
@@ -81,6 +104,7 @@ export const ConsultaLancamento: React.FC = () => {
             ariaDescribedby="name"
             name="nome"
           />
+
           <Select
             value={mes}
             onChange={(e) => setMes(e.target.value)}
@@ -88,6 +112,16 @@ export const ConsultaLancamento: React.FC = () => {
             label="Mês"
             id="inputMes"
             options={months}
+          />
+
+          <Input
+            label="Descrição"
+            value={descricao}
+            placeholder="Ex: Fatura do Cartão"
+            onChangeValue={(e) => setDescricao(e)}
+            id="inputDescricaoRegister"
+            ariaDescribedby="name"
+            name="nome"
           />
           <Select
             value={tipo}
@@ -97,13 +131,17 @@ export const ConsultaLancamento: React.FC = () => {
             id="inputTipo"
             options={releaseTypes}
           />
-
           <br />
-          <Button title="Salvar" typeButton="success" onClick={test} />
+          <Button
+            enabledButton={enableButton}
+            title="Buscar"
+            typeButton="success"
+            onClick={handleClickConsult}
+          />
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
         <br />
-        <LancamentoTable lancamentos={lancamnetosMocked} />
+        <LancamentoTable lancamentos={lancamento} />
       </Card>
     </ContainerRegister>
   );

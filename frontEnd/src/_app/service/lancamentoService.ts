@@ -1,10 +1,12 @@
 import { ApiService } from "../apiservice";
 
-interface lancamentos {
+export interface lancamentos {
   ano: number;
   mes: number;
   tipo: string;
-  status: string;
+  status?: string;
+  descricao?: string;
+  usuarioId: number;
 }
 
 export class LancamentoService extends ApiService {
@@ -20,11 +22,19 @@ export class LancamentoService extends ApiService {
     }
 
     if (lancamentos.tipo) {
-      params = `${params}&mes=${lancamentos.tipo}`;
+      params = `${params}&tipo=${lancamentos.tipo}`;
     }
 
     if (lancamentos.status) {
-      params = `${params}&mes=${lancamentos.status}`;
+      params = `${params}&status=${lancamentos.status}`;
+    }
+
+    if (lancamentos.usuarioId) {
+      params = `${params}&usuario=${lancamentos.usuarioId}`;
+    }
+
+    if (lancamentos.descricao) {
+      params = `${params}&descricao=${lancamentos.descricao}`;
     }
 
     return this.get(params);

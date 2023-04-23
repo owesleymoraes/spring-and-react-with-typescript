@@ -17,6 +17,11 @@ interface lancamentos {
 export const LancamentoTable: React.FC<LancamentoTableProps> = ({
   lancamentos,
 }) => {
+  const formatterMoney = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
   return (
     <FieldRegister widthField={12} typeColumn="md">
       <table className="table table-hover">
@@ -35,7 +40,7 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
             return (
               <tr key={index}>
                 <th scope="row">{item.descricao}</th>
-                <td>{item.valor}</td>
+                <td>{formatterMoney.format(item.valor)}</td>
                 <td>{item.tipo}</td>
                 <td>{item.mes}</td>
                 <td>{item.status}</td>
