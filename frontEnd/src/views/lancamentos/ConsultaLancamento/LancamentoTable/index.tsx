@@ -1,21 +1,26 @@
 import React from "react";
-import { FieldRegister } from "../../../../components/FieldRegister";
 import { Button } from "../../../../components/Button";
+import { FieldRegister } from "../../../../components/FieldRegister";
 
 interface LancamentoTableProps {
-  lancamentos: lancamentos[];
+  lancamentos: lancamentosResponse[];
+  onEditRelease: (id: number) => void;
+  onDeleteRelease: (id: number) => void;
 }
 
-interface lancamentos {
-  descricao: string;
-  valor: number;
-  tipo: string;
+export interface lancamentosResponse {
+  id?: number;
   mes: number;
+  tipo: string;
+  valor: number;
   status: string;
+  descricao: string;
 }
 
 export const LancamentoTable: React.FC<LancamentoTableProps> = ({
   lancamentos,
+  onEditRelease,
+  onDeleteRelease,
 }) => {
   const formatterMoney = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -48,12 +53,16 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
                   <Button
                     title="Editar"
                     typeButton="primary"
-                    onClick={() => {}}
+                    onClick={() => {
+                      onEditRelease(item.id!);
+                    }}
                   />
                   <Button
                     title="Deletar"
                     typeButton="danger"
-                    onClick={() => {}}
+                    onClick={() => {
+                      onDeleteRelease(item.id!);
+                    }}
                   />
                 </td>
               </tr>
