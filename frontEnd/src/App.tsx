@@ -7,7 +7,6 @@ import "bootswatch/dist/flatly/bootstrap.css";
 import "primereact/resources/primereact.min.css";
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import { Button } from "primereact/button";
 
 export const App: React.FC = () => {
   return (
