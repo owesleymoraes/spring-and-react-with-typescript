@@ -5,8 +5,9 @@ export interface lancamentos {
   mes: number;
   tipo: string;
   status?: string;
-  descricao?: string;
   usuarioId: number;
+  releaseId?: number;
+  descricao?: string;
 }
 
 export class LancamentoService extends ApiService {
@@ -38,5 +39,9 @@ export class LancamentoService extends ApiService {
     }
 
     return this.get(params);
+  }
+
+  deletaLancamento(id: number) {
+    return this.delete(`/${id}`);
   }
 }
