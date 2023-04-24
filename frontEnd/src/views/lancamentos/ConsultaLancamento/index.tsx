@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import {
+  showMessageError,
+  showMessageSuccess,
+} from "../../../components/Toastr";
+import React, { useEffect, useState } from "react";
 import { Card } from "../../../components/Card";
 import { Input } from "../../../components/Input";
-import { LancamentoTable } from "./LancamentoTable";
+import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
 import { Button } from "../../../components/Button";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { OptionsSelect, Select } from "../../../components/Select";
@@ -20,7 +24,7 @@ export const ConsultaLancamento: React.FC = () => {
   const [ano, setAno] = useState<string>();
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
-  const [lancamento, setLancamento] = useState([]);
+  const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
   const [descricao, setDescricao] = useState<string>();
 
   let enableButton = ano ? false : true;
@@ -91,6 +95,25 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
+  const handleClickDeleteRelease = (id: number) => {
+    lancamentosService
+      .deletaLancamento(id)
+      .then((response) => {
+        const indexReleaseDeleted = lancamento.findIndex((item) => {
+          item.id === id;
+        });
+        setLancamento(lancamento.slice(indexReleaseDeleted, 1));
+        showMessageSuccess("Lançamento deletado com sucesso!");
+      })
+      .catch(() => {
+        showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
+      });
+  };
+
+  const handleClickEditRelease = (id: number) => {
+    console.log("Editou! " + id);
+  };
+
   return (
     <ContainerRegister>
       <Card title="Consulta Lançamentos">
@@ -141,7 +164,11 @@ export const ConsultaLancamento: React.FC = () => {
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
         <br />
-        <LancamentoTable lancamentos={lancamento} />
+        <LancamentoTable
+          lancamentos={lancamento}
+          onDeleteRelease={handleClickDeleteRelease}
+          onEditRelease={handleClickEditRelease}
+        />
       </Card>
     </ContainerRegister>
   );
