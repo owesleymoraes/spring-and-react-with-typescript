@@ -1,8 +1,9 @@
+import React, { useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
 } from "../../../components/Toastr";
-import React, { useEffect, useState } from "react";
+import { Dialog } from "primereact/dialog";
 import { Card } from "../../../components/Card";
 import { Input } from "../../../components/Input";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
@@ -15,6 +16,7 @@ import {
   lancamentos,
 } from "../../../_app/service/lancamentoService";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { ModalConfirm } from "../components/Modal";
 
 export const ConsultaLancamento: React.FC = () => {
   const lancamentosService = new LancamentoService();
@@ -24,8 +26,11 @@ export const ConsultaLancamento: React.FC = () => {
   const [ano, setAno] = useState<string>();
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
-  const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
   const [descricao, setDescricao] = useState<string>();
+  const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
+  const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
+  const [confirmDeleteRelease, setConfirmDeleteRelease] =
+    useState<boolean>(false);
 
   let enableButton = ano ? false : true;
 
@@ -94,20 +99,26 @@ export const ConsultaLancamento: React.FC = () => {
         console.log(error);
       });
   };
+  
 
   const handleClickDeleteRelease = (id: number) => {
-    lancamentosService
-      .deletaLancamento(id)
-      .then((response) => {
-        const indexReleaseDeleted = lancamento.findIndex((item) => {
-          item.id === id;
-        });
-        setLancamento(lancamento.slice(indexReleaseDeleted, 1));
-        showMessageSuccess("Lançamento deletado com sucesso!");
-      })
-      .catch(() => {
-        showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
-      });
+    setShowConfirmDialog(true);
+
+    if (confirmDeleteRelease) {
+      console.log(confirmDeleteRelease);
+      // lancamentosService
+      //   .deletaLancamento(id)
+      //   .then((response) => {
+      //     const indexReleaseDeleted = lancamento.findIndex((item) => {
+      //       item.id === id;
+      //     });
+      //     setLancamento(lancamento.slice(indexReleaseDeleted, 1));
+      //     showMessageSuccess("Lançamento deletado com sucesso!");
+      //   })
+      //   .catch(() => {
+      //     showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
+      //   });
+    }
   };
 
   const handleClickEditRelease = (id: number) => {
@@ -169,6 +180,16 @@ export const ConsultaLancamento: React.FC = () => {
           onDeleteRelease={handleClickDeleteRelease}
           onEditRelease={handleClickEditRelease}
         />
+        <ModalConfirm
+          showModal={showConfirmDialog}
+          header="Deletar Lançamento"
+          labelButtonCancel="Cancela"
+          labelButtonConfirm="Confirma"
+          onClickCancel={setShowConfirmDialog}
+          onClickConfirm={setConfirmDeleteRelease}
+        >
+          Confirma a exclusão desse lançamento?
+        </ModalConfirm>
       </Card>
     </ContainerRegister>
   );
