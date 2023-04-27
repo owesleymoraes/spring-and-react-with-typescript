@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
 } from "../../../components/Toastr";
-import { Dialog } from "primereact/dialog";
 import { Card } from "../../../components/Card";
-import { Input } from "../../../components/Input";
-import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
-import { Button } from "../../../components/Button";
-import { FieldRegister } from "../../../components/FieldRegister";
-import { OptionsSelect, Select } from "../../../components/Select";
-import { ContainerRegister } from "../../../components/ConatinerRegister";
 import {
   LancamentoService,
   lancamentos,
 } from "../../../_app/service/lancamentoService";
-import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { Input } from "../../../components/Input";
 import { ModalConfirm } from "../components/Modal";
+import { Button } from "../../../components/Button";
+import { FieldRegister } from "../../../components/FieldRegister";
+import { OptionsSelect, Select } from "../../../components/Select";
+import { ContainerRegister } from "../../../components/ConatinerRegister";
+import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
+import { LocalStorageService } from "../../../_app/service/localStorageService";
 
 export const ConsultaLancamento: React.FC = () => {
   const lancamentosService = new LancamentoService();
@@ -26,6 +25,7 @@ export const ConsultaLancamento: React.FC = () => {
   const [ano, setAno] = useState<string>();
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
+  const [storedId, setStoredId] = useState<number>();
   const [descricao, setDescricao] = useState<string>();
   const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
@@ -99,27 +99,31 @@ export const ConsultaLancamento: React.FC = () => {
         console.log(error);
       });
   };
-  
 
-  const handleClickDeleteRelease = (id: number) => {
-    setShowConfirmDialog(true);
+  useEffect(() => {
+    if (storedId) {
+      setShowConfirmDialog(true);
+    }
 
     if (confirmDeleteRelease) {
-      console.log(confirmDeleteRelease);
-      // lancamentosService
-      //   .deletaLancamento(id)
-      //   .then((response) => {
-      //     const indexReleaseDeleted = lancamento.findIndex((item) => {
-      //       item.id === id;
-      //     });
-      //     setLancamento(lancamento.slice(indexReleaseDeleted, 1));
-      //     showMessageSuccess("Lançamento deletado com sucesso!");
-      //   })
-      //   .catch(() => {
-      //     showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
-      //   });
+      lancamentosService
+        .deletaLancamento(storedId!)
+        .then(() => {
+          const indexReleaseDeleted = lancamento.findIndex((item) => {
+            item.id === storedId;
+          });
+          setLancamento(lancamento.slice(indexReleaseDeleted, 1));
+          showMessageSuccess("Lançamento deletado com sucesso!");
+        })
+        .catch(() => {
+          showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
+        });
+
+      setStoredId(undefined);
+      setShowConfirmDialog(false);
+      setConfirmDeleteRelease(false);
     }
-  };
+  }, [storedId, confirmDeleteRelease]);
 
   const handleClickEditRelease = (id: number) => {
     console.log("Editou! " + id);
@@ -177,7 +181,7 @@ export const ConsultaLancamento: React.FC = () => {
         <br />
         <LancamentoTable
           lancamentos={lancamento}
-          onDeleteRelease={handleClickDeleteRelease}
+          onDeleteRelease={setStoredId}
           onEditRelease={handleClickEditRelease}
         />
         <ModalConfirm
@@ -188,7 +192,7 @@ export const ConsultaLancamento: React.FC = () => {
           onClickCancel={setShowConfirmDialog}
           onClickConfirm={setConfirmDeleteRelease}
         >
-          Confirma a exclusão desse lançamento?
+          Confirma a exclusão desse lançamento ?
         </ModalConfirm>
       </Card>
     </ContainerRegister>
