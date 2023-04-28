@@ -13,8 +13,8 @@ import { ModalConfirm } from "../components/Modal";
 import { Button } from "../../../components/Button";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { OptionsSelect, Select } from "../../../components/Select";
-import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
+import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
 
 export const ConsultaLancamento: React.FC = () => {
@@ -22,11 +22,11 @@ export const ConsultaLancamento: React.FC = () => {
 
   const userLogger = LocalStorageService.getItemLocalStorage("user_logged");
 
-  const [ano, setAno] = useState<string>();
+  const [ano, setAno] = useState<string>("");
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
   const [storedId, setStoredId] = useState<number>();
-  const [descricao, setDescricao] = useState<string>();
+  const [descricao, setDescricao] = useState<string>("");
   const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
   const [confirmDeleteRelease, setConfirmDeleteRelease] =
@@ -100,6 +100,24 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
+  // último elemento do array não está sendo deletado.
+
+  // possível solução:
+
+  //   const [myArray, setMyArray] = useState(['a', 'b', 'c', 'd']);
+
+  // useEffect(() => {
+  //   // Remove o elemento 'c' do array
+  //   setMyArray(prevState => {
+  //     const newArray = [...prevState];
+  //     const index = newArray.indexOf('c');
+  //     if (index !== -1) {
+  //       newArray.splice(index, 1);
+  //     }
+  //     return newArray;
+  //   });
+  // }, []);
+
   useEffect(() => {
     if (storedId) {
       setShowConfirmDialog(true);
@@ -112,7 +130,9 @@ export const ConsultaLancamento: React.FC = () => {
           const indexReleaseDeleted = lancamento.findIndex((item) => {
             item.id === storedId;
           });
-          setLancamento(lancamento.slice(indexReleaseDeleted, 1));
+
+          setLancamento(lancamento.splice(indexReleaseDeleted, 1));
+
           showMessageSuccess("Lançamento deletado com sucesso!");
         })
         .catch(() => {
@@ -128,6 +148,8 @@ export const ConsultaLancamento: React.FC = () => {
   const handleClickEditRelease = (id: number) => {
     console.log("Editou! " + id);
   };
+
+  console.log(lancamento.length);
 
   return (
     <ContainerRegister>
@@ -179,11 +201,13 @@ export const ConsultaLancamento: React.FC = () => {
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
         <br />
-        <LancamentoTable
-          lancamentos={lancamento}
-          onDeleteRelease={setStoredId}
-          onEditRelease={handleClickEditRelease}
-        />
+        {lancamento.length > 0 && (
+          <LancamentoTable
+            lancamentos={lancamento}
+            onDeleteRelease={setStoredId}
+            onEditRelease={handleClickEditRelease}
+          />
+        )}
         <ModalConfirm
           showModal={showConfirmDialog}
           header="Deletar Lançamento"
