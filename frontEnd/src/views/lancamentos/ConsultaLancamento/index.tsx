@@ -8,9 +8,11 @@ import {
   LancamentoService,
   lancamentos,
 } from "../../../_app/service/lancamentoService";
+import { months } from "../../../_utils/months";
 import { Input } from "../../../components/Input";
 import { ModalConfirm } from "../components/Modal";
 import { Button } from "../../../components/Button";
+import { releaseTypes } from "../../../_utils/typesRelease";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { OptionsSelect, Select } from "../../../components/Select";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
@@ -41,28 +43,6 @@ export const ConsultaLancamento: React.FC = () => {
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 
   let enableButton = ano ? false : true;
-
-  const months: OptionsSelect[] = [
-    { value: "", label: "Selecione..." },
-    { value: "1", label: "Janeiro" },
-    { value: "2", label: "Fevereiro" },
-    { value: "3", label: "Março" },
-    { value: "4", label: "Abril" },
-    { value: "5", label: "Maio" },
-    { value: "6", label: "Junho" },
-    { value: "7", label: "Julho" },
-    { value: "8", label: "Agosto" },
-    { value: "9", label: "Setembro" },
-    { value: "10", label: "Outubro" },
-    { value: "11", label: "Novembro" },
-    { value: "12", label: "Desembro" },
-  ];
-
-  const releaseTypes: OptionsSelect[] = [
-    { value: "", label: "Selecione..." },
-    { value: "DESPESA", label: "Despesa" },
-    { value: "RECEITA", label: "Receita" },
-  ];
 
   const handleClickConsult = () => {
     const lancamentoFiltro: lancamentos = {
