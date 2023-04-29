@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
@@ -56,31 +56,6 @@ export const ConsultaLancamento: React.FC = () => {
     { value: "RECEITA", label: "Receita" },
   ];
 
-  const lancamentosMocked = [
-    {
-      descricao: "salario",
-      valor: 5000,
-      tipo: "Receita",
-      mes: 1,
-      status: "Efetivado",
-    },
-    {
-      descricao: "salario",
-      valor: 5000,
-      tipo: "Receita",
-      mes: 1,
-      status: "Efetivado",
-    },
-
-    {
-      descricao: "salario",
-      valor: 5000,
-      tipo: "Receita",
-      mes: 1,
-      status: "Efetivado",
-    },
-  ];
-
   const handleClickConsult = () => {
     const lancamentoFiltro: lancamentos = {
       ano: Number(ano),
@@ -135,9 +110,26 @@ export const ConsultaLancamento: React.FC = () => {
 
   const handleClickEditRelease = (id: number) => {};
 
-  const handleClickDeleteRelease = (release: lancamentosResponse ) => {
+  const handleClickDeleteRelease = (release: lancamentosResponse) => {
+    lancamentosService
+      .deletaLancamento(release.id)
+      .then(() => {
+        const index = lancamento.indexOf(release);
 
-  }
+        setLancamento((prevState) => {
+          const newListaDeLancamento = [...prevState];
+
+          if (index !== -1) {
+            newListaDeLancamento.splice(index, 1);
+          }
+          return newListaDeLancamento;
+        });
+        showMessageSuccess("Lançamento deletado com sucesso!");
+      })
+      .catch(() => {
+        showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
+      });
+  };
 
   return (
     <ContainerRegister>
