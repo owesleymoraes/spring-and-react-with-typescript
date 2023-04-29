@@ -25,9 +25,9 @@ export const ConsultaLancamento: React.FC = () => {
   const [ano, setAno] = useState<string>("");
   const [mes, setMes] = useState<string>();
   const [tipo, setTipo] = useState<string>();
-  const [storedId, setStoredId] = useState<number>();
   const [descricao, setDescricao] = useState<string>("");
   const [lancamento, setLancamento] = useState<lancamentosResponse[]>([]);
+  const [listLancamento, setListLancamento] = useState<lancamentosResponse>();
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
   const [confirmDeleteRelease, setConfirmDeleteRelease] =
     useState<boolean>(false);
@@ -100,56 +100,44 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
-  // último elemento do array não está sendo deletado.
-
-  // possível solução:
-
-  //   const [myArray, setMyArray] = useState(['a', 'b', 'c', 'd']);
-
   // useEffect(() => {
-  //   // Remove o elemento 'c' do array
-  //   setMyArray(prevState => {
-  //     const newArray = [...prevState];
-  //     const index = newArray.indexOf('c');
-  //     if (index !== -1) {
-  //       newArray.splice(index, 1);
-  //     }
-  //     return newArray;
-  //   });
-  // }, []);
+  //   if (lancamento?.id) {
+  //     setShowConfirmDialog(true);
+  //   }
 
-  useEffect(() => {
-    if (storedId) {
-      setShowConfirmDialog(true);
-    }
+  //   if (confirmDeleteRelease) {
+  //     lancamentosService
+  //       .deletaLancamento(lancamento?.id!)
+  //       .then(() => {
+  //         const indexReleaseDeleted =
+  //         });
 
-    if (confirmDeleteRelease) {
-      lancamentosService
-        .deletaLancamento(storedId!)
-        .then(() => {
-          const indexReleaseDeleted = lancamento.findIndex((item) => {
-            item.id === storedId;
-          });
+  //         setLancamento((prevState) => {
+  //           const newArray = [...prevState];
 
-          setLancamento(lancamento.splice(indexReleaseDeleted, 1));
+  //           if (indexReleaseDeleted !== -1) {
+  //             newArray.splice(indexReleaseDeleted, 1);
+  //           }
+  //           return newArray;
+  //         });
 
-          showMessageSuccess("Lançamento deletado com sucesso!");
-        })
-        .catch(() => {
-          showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
-        });
+  //         showMessageSuccess("Lançamento deletado com sucesso!");
+  //       })
+  //       .catch(() => {
+  //         showMessageError("Ocorreu um erro ao tentar deletar o lançamento");
+  //       });
 
-      setStoredId(undefined);
-      setShowConfirmDialog(false);
-      setConfirmDeleteRelease(false);
-    }
-  }, [storedId, confirmDeleteRelease]);
+  //     setStoredId(undefined);
+  //     setShowConfirmDialog(false);
+  //     setConfirmDeleteRelease(false);
+  //   }
+  // }, [storedId, confirmDeleteRelease]);
 
-  const handleClickEditRelease = (id: number) => {
-    console.log("Editou! " + id);
-  };
+  const handleClickEditRelease = (id: number) => {};
 
-  console.log(lancamento.length);
+  const handleClickDeleteRelease = (release: lancamentosResponse ) => {
+
+  }
 
   return (
     <ContainerRegister>
@@ -201,13 +189,13 @@ export const ConsultaLancamento: React.FC = () => {
           <Button title="Voltar" typeButton="danger" onClick={() => {}} />
         </FieldRegister>
         <br />
-        {lancamento.length > 0 && (
-          <LancamentoTable
-            lancamentos={lancamento}
-            onDeleteRelease={setStoredId}
-            onEditRelease={handleClickEditRelease}
-          />
-        )}
+
+        <LancamentoTable
+          lancamentos={lancamento}
+          onDeleteRelease={handleClickDeleteRelease}
+          onEditRelease={handleClickEditRelease}
+        />
+
         <ModalConfirm
           showModal={showConfirmDialog}
           header="Deletar Lançamento"

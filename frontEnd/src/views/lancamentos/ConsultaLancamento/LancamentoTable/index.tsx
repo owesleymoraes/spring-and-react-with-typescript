@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../../../components/Button";
 import { FieldRegister } from "../../../../components/FieldRegister";
 
 interface LancamentoTableProps {
   lancamentos: lancamentosResponse[];
   onEditRelease: (id: number) => void;
-  onDeleteRelease: (id: number) => void;
+  onDeleteRelease: (release: lancamentosResponse) => void;
 }
 
 export interface lancamentosResponse {
-  id?: number;
+  id: number;
   mes: number;
   tipo: string;
   valor: number;
@@ -61,7 +61,7 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
                     title="Deletar"
                     typeButton="danger"
                     onClick={() => {
-                      onDeleteRelease(item.id!);
+                      onDeleteRelease(item);
                     }}
                   />
                 </td>
