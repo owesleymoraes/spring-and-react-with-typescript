@@ -3,7 +3,7 @@ import { Button } from "../../../../components/Button";
 import { FieldRegister } from "../../../../components/FieldRegister";
 
 interface LancamentoTableProps {
-  lancamentos: lancamentosResponse[];
+  releases: lancamentosResponse[];
   onEditRelease: (id: number) => void;
   onDeleteRelease: (release: lancamentosResponse) => void;
 }
@@ -18,7 +18,7 @@ export interface lancamentosResponse {
 }
 
 export const LancamentoTable: React.FC<LancamentoTableProps> = ({
-  lancamentos,
+  releases,
   onEditRelease,
   onDeleteRelease,
 }) => {
@@ -41,7 +41,7 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {lancamentos.map((item, index) => {
+          {releases.map((item, index) => {
             return (
               <tr key={index}>
                 <th scope="row">{item.descricao}</th>
