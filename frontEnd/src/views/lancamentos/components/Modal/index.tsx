@@ -8,8 +8,9 @@ interface ModalConfirmProps {
   children: React.ReactNode;
   labelButtonCancel: string;
   labelButtonConfirm: string;
-  onClickConfirm: (confirm: boolean) => void;
-  onClickCancel: (cancel: boolean) => void;
+
+  onClickConfirm: () => void;
+  onClickCancel: () => void;
 }
 
 export const ModalConfirm: React.FC<ModalConfirmProps> = ({
@@ -18,14 +19,11 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = ({
   showModal,
   labelButtonCancel,
   labelButtonConfirm,
+
   onClickCancel,
   onClickConfirm,
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
-
-  const handleClickConfirm = (confirm: boolean) => {
-    onClickConfirm(confirm);
-  };
 
   useEffect(() => {
     setVisible(showModal);
@@ -36,13 +34,13 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = ({
       <Button
         label={labelButtonCancel}
         icon="pi pi-times"
-        onClick={() => onClickCancel(false)}
+        onClick={() => onClickCancel()}
         className="p-button-text"
       />
       <Button
         label={labelButtonConfirm}
         icon="pi pi-check"
-        onClick={() => handleClickConfirm(true)}
+        onClick={() => onClickConfirm()}
         autoFocus
       />
     </div>
@@ -56,6 +54,8 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = ({
         style={{ width: "50vw" }}
         onHide={() => setVisible(false)}
         footer={footerContent}
+        modal={true}
+        closable={visible}
       >
         <p className="m-0">{children}</p>
       </Dialog>
