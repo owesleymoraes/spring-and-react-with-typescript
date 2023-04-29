@@ -55,7 +55,6 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = ({
         onHide={() => setVisible(false)}
         footer={footerContent}
         modal={true}
-        closable={visible}
       >
         <p className="m-0">{children}</p>
       </Dialog>
