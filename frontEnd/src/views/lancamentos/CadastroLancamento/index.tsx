@@ -11,26 +11,29 @@ import { FieldRegister } from "../../../components/FieldRegister";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoService } from "../../../_app/service/lancamentoService";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { useNavigate } from "react-router-dom";
 
 export interface FormValuesParams {
   id?: number;
   tipo: string;
   status?: string;
   descricao: string;
-  ano: number | null;
-  mes: number | null;
-  valor: number | null;
-  usuario?: number | null;
+  ano: string;
+  mes: string;
+  valor: string;
+  usuario?: string;
 }
 
 export const CadastroDeLancamento: React.FC = () => {
   const releaseService = new LancamentoService();
 
+  const navigate = useNavigate();
+
   const [formValues, setFormValues] = useState<FormValuesParams>({
-    usuario: null,
-    ano: null,
-    mes: null,
-    valor: null,
+    usuario: "",
+    ano: "",
+    mes: "",
+    valor: "",
     descricao: "",
     tipo: "",
     status: "",
@@ -60,6 +63,16 @@ export const CadastroDeLancamento: React.FC = () => {
       .salvarLancamento(releases)
       .then(() => {
         message.showMessageSuccess("Lançamento cadastrado com sucesso!");
+        setFormValues({
+          usuario: "",
+          ano: "",
+          mes: "",
+          valor: "",
+          descricao: "",
+          tipo: "",
+          status: "",
+        });
+        navigate("/consulta-lancamento");
       })
       .catch((error: any) => {
         message.showMessageError(error.response.data);
@@ -71,7 +84,7 @@ export const CadastroDeLancamento: React.FC = () => {
       <Card title="Cadastro de Lançamento">
         <FieldRegister widthField={6}>
           <Input
-            value={formValues.descricao}
+            value={formValues.descricao!}
             onChangeValue={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -115,7 +128,7 @@ export const CadastroDeLancamento: React.FC = () => {
         <br />
         <FieldRegister widthField={3}>
           <Select
-            value={formValues.tipo}
+            value={formValues.tipo!}
             onChangeSelected={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -137,14 +150,14 @@ export const CadastroDeLancamento: React.FC = () => {
             label="Valor"
             id="inputValorRegister"
             ariaDescribedby="name"
-            placeholder="5,00"
+            placeholder="R$: 5,00"
             name="valor"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Select
-            value={formValues.status}
+            value={formValues.status!}
             onChangeSelected={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -162,7 +175,11 @@ export const CadastroDeLancamento: React.FC = () => {
           typeButton="success"
           onClick={() => handleSubmit()}
         />
-        <Button title="Cancelar" typeButton="danger" onClick={() => {}} />
+        <Button
+          title="Cancelar"
+          typeButton="danger"
+          onClick={() => navigate("/consulta-lancamento")}
+        />
       </Card>
     </ContainerRegister>
   );
