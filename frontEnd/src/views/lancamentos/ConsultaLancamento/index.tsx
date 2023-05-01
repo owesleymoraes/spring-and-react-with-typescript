@@ -125,7 +125,7 @@ export const ConsultaLancamento: React.FC = () => {
 
           <Select
             value={mes}
-            onChange={(e) => setMes(e.target.value)}
+            onChangeSelected={(e) => setMes(e)}
             className="form-control"
             label="Mês"
             id="inputMes"
@@ -143,7 +143,7 @@ export const ConsultaLancamento: React.FC = () => {
           />
           <Select
             value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
+            onChangeSelected={(e) => setTipo(e)}
             className="form-control"
             label="Tipo"
             id="inputTipo"
