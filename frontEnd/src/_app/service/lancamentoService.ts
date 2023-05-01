@@ -1,3 +1,4 @@
+import { FormValuesParams } from "../../views/lancamentos/CadastroLancamento";
 import { ApiService } from "../apiservice";
 
 export interface lancamentos {
@@ -13,6 +14,10 @@ export interface lancamentos {
 export class LancamentoService extends ApiService {
   constructor() {
     super("/api/lancamentos");
+  }
+
+  salvarLancamento(lancamentos: FormValuesParams) {
+    return this.post("", lancamentos);
   }
 
   consultaLancamento(lancamentos: lancamentos) {
