@@ -4,7 +4,7 @@ import "./styles.css";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   ariaDescribedby?: string;
-  onChangeValue: (value: string) => void;
+  onChangeValue: (value: string, name: string) => void;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -17,8 +17,11 @@ export const Input: React.FC<InputProps> = ({
   ariaDescribedby,
   onChangeValue,
 }) => {
-  const handleChange = (value: string) => {
-    onChangeValue(value);
+  const handleChange = (
+    target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  ) => {
+    const { value, name } = target;
+    onChangeValue(value, name);
   };
 
   return (
@@ -26,7 +29,7 @@ export const Input: React.FC<InputProps> = ({
       <label htmlFor={id}>{label}: *</label>
       <input
         value={value}
-        onChange={(event) => handleChange(event.target.value)}
+        onChange={(event) => handleChange(event.target)}
         type={type}
         className="form-control"
         id={id}
