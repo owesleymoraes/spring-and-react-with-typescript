@@ -1,36 +1,39 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { months } from "../../../_utils/months";
 import { Card } from "../../../components/Card";
 import { status } from "../../../_utils/status";
 import { Input } from "../../../components/Input";
 import { Select } from "../../../components/Select";
 import { Button } from "../../../components/Button";
+import * as message from "../../../components/Toastr";
 import { releaseTypes } from "../../../_utils/typesRelease";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoService } from "../../../_app/service/lancamentoService";
+import { LocalStorageService } from "../../../_app/service/localStorageService";
 
-interface FormValues {
-  id: number | null;
-  value: string;
-  year: string;
-  month: string;
-  typeRelease: string;
-  description: string;
-  statusRelease: string;
+export interface FormValuesParams {
+  id?: number;
+  tipo: string;
+  status?: string;
+  descricao: string;
+  ano: number | null;
+  mes: number | null;
+  valor: number | null;
+  usuario?: number | null;
 }
 
 export const CadastroDeLancamento: React.FC = () => {
   const releaseService = new LancamentoService();
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    id: null,
-    year: "",
-    month: "",
-    value: "",
-    description: "",
-    typeRelease: "",
-    statusRelease: "",
+  const [formValues, setFormValues] = useState<FormValuesParams>({
+    usuario: null,
+    ano: null,
+    mes: null,
+    valor: null,
+    descricao: "",
+    tipo: "",
+    status: "",
   });
 
   const handleChange = (value: string, name: string) => {
@@ -40,8 +43,27 @@ export const CadastroDeLancamento: React.FC = () => {
     }));
   };
 
-  const handleSubit = () => {
-    console.log(formValues);
+  const handleSubmit = () => {
+    const { descricao, mes, valor, tipo, ano, usuario } = formValues;
+    const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
+
+    const releases: FormValuesParams = {
+      ano: ano,
+      mes: mes,
+      tipo: tipo,
+      valor: valor,
+      usuario: userLogged.id,
+      descricao: descricao,
+    };
+
+    releaseService
+      .salvarLancamento(releases)
+      .then(() => {
+        message.showMessageSuccess("Lançamento cadastrado com sucesso!");
+      })
+      .catch((error: any) => {
+        message.showMessageError(error.response.data);
+      });
   };
 
   return (
@@ -49,7 +71,7 @@ export const CadastroDeLancamento: React.FC = () => {
       <Card title="Cadastro de Lançamento">
         <FieldRegister widthField={6}>
           <Input
-            value={formValues.description}
+            value={formValues.descricao}
             onChangeValue={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -58,13 +80,13 @@ export const CadastroDeLancamento: React.FC = () => {
             id="inputDescriptionRegister"
             ariaDescribedby="name"
             placeholder="Ex: Fatura do Cartão"
-            name="description"
+            name="descricao"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Input
-            value={formValues.year}
+            value={formValues.ano!}
             onChangeValue={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -73,13 +95,13 @@ export const CadastroDeLancamento: React.FC = () => {
             id="inputDescriptionRegister"
             ariaDescribedby="name"
             placeholder="Ex: 2023"
-            name="year"
+            name="ano"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Select
-            value={formValues.month}
+            value={formValues.mes!}
             onChangeSelected={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -87,13 +109,13 @@ export const CadastroDeLancamento: React.FC = () => {
             label="Mês"
             id="inputMes"
             options={months}
-            name="month"
+            name="mes"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Select
-            value={formValues.typeRelease}
+            value={formValues.tipo}
             onChangeSelected={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -101,13 +123,13 @@ export const CadastroDeLancamento: React.FC = () => {
             label="Tipo"
             id="inputTipo"
             options={releaseTypes}
-            name="typeRelease"
+            name="tipo"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Input
-            value={formValues.value}
+            value={formValues.valor!}
             onChangeValue={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -116,13 +138,13 @@ export const CadastroDeLancamento: React.FC = () => {
             id="inputValorRegister"
             ariaDescribedby="name"
             placeholder="5,00"
-            name="value"
+            name="valor"
           />
         </FieldRegister>
         <br />
         <FieldRegister widthField={3}>
           <Select
-            value={formValues.statusRelease}
+            value={formValues.status}
             onChangeSelected={(valueInput, nameInput) =>
               handleChange(valueInput, nameInput)
             }
@@ -130,7 +152,7 @@ export const CadastroDeLancamento: React.FC = () => {
             label="Status"
             id="inputTipo"
             options={status}
-            name="statusRelease"
+            name="status"
           />
         </FieldRegister>
         <br />
@@ -138,7 +160,7 @@ export const CadastroDeLancamento: React.FC = () => {
         <Button
           title="Salvar"
           typeButton="success"
-          onClick={() => handleSubit()}
+          onClick={() => handleSubmit()}
         />
         <Button title="Cancelar" typeButton="danger" onClick={() => {}} />
       </Card>
