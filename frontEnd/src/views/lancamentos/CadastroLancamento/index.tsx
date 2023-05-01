@@ -33,10 +33,7 @@ export const CadastroDeLancamento: React.FC = () => {
     statusRelease: "",
   });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = event.target;
-    
-
+  const handleChange = (value: string, name: string) => {
     setFormValues((prevState) => ({
       ...prevState,
       [name]: value,
@@ -53,7 +50,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={6}>
           <Input
             value={formValues.description}
-            onChangeValue={() => handleChange}
+            onChangeValue={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             type="text"
             label="Descrição"
             id="inputDescriptionRegister"
@@ -66,7 +65,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={3}>
           <Input
             value={formValues.year}
-            onChangeValue={() => handleChange}
+            onChangeValue={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             type="text"
             label="Ano"
             id="inputDescriptionRegister"
@@ -79,7 +80,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={3}>
           <Select
             value={formValues.month}
-            onChange={() => handleChange}
+            onChangeSelected={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             className="form-control"
             label="Mês"
             id="inputMes"
@@ -91,7 +94,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={3}>
           <Select
             value={formValues.typeRelease}
-            onChange={() => handleChange}
+            onChangeSelected={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             className="form-control"
             label="Tipo"
             id="inputTipo"
@@ -103,7 +108,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={3}>
           <Input
             value={formValues.value}
-            onChangeValue={() => handleChange}
+            onChangeValue={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             type="text"
             label="Valor"
             id="inputValorRegister"
@@ -116,7 +123,9 @@ export const CadastroDeLancamento: React.FC = () => {
         <FieldRegister widthField={3}>
           <Select
             value={formValues.statusRelease}
-            onChange={() => handleChange}
+            onChangeSelected={(valueInput, nameInput) =>
+              handleChange(valueInput, nameInput)
+            }
             className="form-control"
             label="Status"
             id="inputTipo"
@@ -129,7 +138,7 @@ export const CadastroDeLancamento: React.FC = () => {
         <Button
           title="Salvar"
           typeButton="success"
-          onClick={() => handleSubit}
+          onClick={() => handleSubit()}
         />
         <Button title="Cancelar" typeButton="danger" onClick={() => {}} />
       </Card>
