@@ -18,6 +18,7 @@ import { OptionsSelect, Select } from "../../../components/Select";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { useNavigate } from "react-router-dom";
 
 export const ConsultaLancamento: React.FC = () => {
   const lancamentosService = new LancamentoService();
@@ -41,6 +42,8 @@ export const ConsultaLancamento: React.FC = () => {
       descricao: "",
     });
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   let enableButton = ano ? false : true;
 
@@ -156,7 +159,7 @@ export const ConsultaLancamento: React.FC = () => {
             typeButton="success"
             onClick={handleClickConsult}
           />
-          <Button title="Voltar" typeButton="danger" onClick={() => {}} />
+          <Button title="Cadastrar" typeButton="danger" onClick={() => navigate('/cadastro-lancamento')} />
         </FieldRegister>
         <br />
 
