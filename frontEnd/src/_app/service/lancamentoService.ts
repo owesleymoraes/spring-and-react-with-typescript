@@ -1,3 +1,5 @@
+import { FormValuesParams } from "../../views/lancamentos/CadastroLancamento";
+import { lancamentosResponse } from "../../views/lancamentos/ConsultaLancamento/LancamentoTable";
 import { ApiService } from "../apiservice";
 
 export interface lancamentos {
@@ -13,6 +15,10 @@ export interface lancamentos {
 export class LancamentoService extends ApiService {
   constructor() {
     super("/api/lancamentos");
+  }
+
+  salvarLancamento(lancamentos: FormValuesParams) {
+    return this.post("", lancamentos);
   }
 
   consultaLancamento(lancamentos: lancamentos) {
@@ -39,6 +45,14 @@ export class LancamentoService extends ApiService {
     }
 
     return this.get(params);
+  }
+
+  obterLancamentoPorId(id: string) {
+    return this.get(`/${id}`);
+  }
+
+  atualizaLancamento(lancamentos: FormValuesParams) {
+    return this.put(`/${lancamentos.id}`, lancamentos);
   }
 
   deletaLancamento(id: number) {

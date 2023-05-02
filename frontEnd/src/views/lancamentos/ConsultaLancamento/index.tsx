@@ -8,13 +8,14 @@ import {
   LancamentoService,
   lancamentos,
 } from "../../../_app/service/lancamentoService";
+import { useNavigate } from "react-router-dom";
 import { months } from "../../../_utils/months";
 import { Input } from "../../../components/Input";
 import { ModalConfirm } from "../components/Modal";
 import { Button } from "../../../components/Button";
+import { Select } from "../../../components/Select";
 import { releaseTypes } from "../../../_utils/typesRelease";
 import { FieldRegister } from "../../../components/FieldRegister";
-import { OptionsSelect, Select } from "../../../components/Select";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
@@ -42,6 +43,8 @@ export const ConsultaLancamento: React.FC = () => {
     });
   const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   let enableButton = ano ? false : true;
 
   const handleClickConsult = () => {
@@ -63,7 +66,9 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
-  const handleClickEditRelease = (id: number) => {};
+  const handleClickEditRelease = (id: number) => {
+    navigate(`/cadastro-lancamento/${id}`);
+  };
 
   const handleOpenConfirmDeleteRelease = (release: lancamentosResponse) => {
     setShowConfirmDialog(true);
@@ -156,7 +161,11 @@ export const ConsultaLancamento: React.FC = () => {
             typeButton="success"
             onClick={handleClickConsult}
           />
-          <Button title="Voltar" typeButton="danger" onClick={() => {}} />
+          <Button
+            title="Cadastrar"
+            typeButton="danger"
+            onClick={() => navigate("/cadastro-lancamento")}
+          />
         </FieldRegister>
         <br />
 
