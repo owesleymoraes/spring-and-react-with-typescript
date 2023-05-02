@@ -63,6 +63,13 @@ public class LancamentoResource {
 
 	}
 
+	private LancamentoDTO convertEntityToDTO(Lancamento lancamento) {
+		return LancamentoDTO.builder().id(lancamento.getId()).descricao(lancamento.getDescricao())
+				.valor(lancamento.getValor()).mes(lancamento.getMes()).ano(lancamento.getAno())
+				.tipo(lancamento.getTipo().name()).usuario(lancamento.getUsuario().getId())
+				.status(lancamento.getStatus().name()).build();
+	}
+
 	@PostMapping
 	public ResponseEntity salvarLancamento(@RequestBody LancamentoDTO dtoLancamento) {
 		try {
@@ -75,7 +82,7 @@ public class LancamentoResource {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity atualizarLancamento(@PathVariable("id") Long id, @RequestBody LancamentoDTO dto) {
+	public ResponseEntity atualizaLancamento(@PathVariable("id") Long id, @RequestBody LancamentoDTO dto) {
 		// primeiro buscar na base dados o id informado.
 
 		return service.obterLancamentoPeloId(id).map(item -> {
@@ -100,6 +107,13 @@ public class LancamentoResource {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados.", HttpStatus.BAD_REQUEST));
 
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity buscaLancamentoPorId(@PathVariable("id") Long id) {
+		return service.obterLancamentoPeloId(id)
+				.map(lancamento -> new ResponseEntity(convertEntityToDTO(lancamento), HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping
