@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import { months } from "../../../_utils/months";
 import { Card } from "../../../components/Card";
 import { status } from "../../../_utils/status";
@@ -6,27 +7,28 @@ import { Input } from "../../../components/Input";
 import { Select } from "../../../components/Select";
 import { Button } from "../../../components/Button";
 import * as message from "../../../components/Toastr";
+import { useNavigate, useParams } from "react-router-dom";
 import { releaseTypes } from "../../../_utils/typesRelease";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoService } from "../../../_app/service/lancamentoService";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
-import { useNavigate } from "react-router-dom";
 
 export interface FormValuesParams {
-  id?: number;
-  tipo: string;
-  status?: string;
-  descricao: string;
+  id?: null;
   ano: string;
   mes: string;
+  tipo: string;
   valor: string;
+  status?: string;
   usuario?: string;
+  descricao: string;
 }
 
 export const CadastroDeLancamento: React.FC = () => {
   const releaseService = new LancamentoService();
 
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState<FormValuesParams>({
@@ -47,7 +49,7 @@ export const CadastroDeLancamento: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    const { descricao, mes, valor, tipo, ano, usuario } = formValues;
+    const { descricao, mes, valor, tipo, ano } = formValues;
     const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
 
     const releases: FormValuesParams = {
@@ -78,6 +80,45 @@ export const CadastroDeLancamento: React.FC = () => {
         message.showMessageError(error.response.data);
       });
   };
+
+  // const handleUpdate = () => {
+  //   const { descricao, mes, valor, tipo, ano, id, status, usuario } =
+  //     formValues;
+  //   const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
+  //   const releases: FormValuesParams = {
+  //     id: id,
+  //     mes: mes,
+  //     ano: ano,
+  //     tipo: tipo,
+  //     valor: valor,
+  //     status: status,
+  //     usuario: userLogged,
+  //     descricao: descricao,
+  //   };
+
+  //   releaseService
+  //     .atualizaLancamento(releases)
+  //     .then(() => {
+  //       message.showMessageSuccess("Lançamento Atualizado com sucesso!");
+  //       navigate("/consulta-lancamento");
+  //     })
+  //     .catch((error: any) => {
+  //       message.showMessageError(error.response.data);
+  //     });
+  // };
+
+  useEffect(() => {
+    if (id) {
+      releaseService
+        .obterLancamentoPorId(id)
+        .then((response) => {
+          setFormValues({ ...response.data });
+        })
+        .catch((error: AxiosError) => {
+          message.showMessageError(String(error.response?.data));
+        });
+    }
+  }, []);
 
   return (
     <ContainerRegister>
@@ -169,12 +210,16 @@ export const CadastroDeLancamento: React.FC = () => {
           />
         </FieldRegister>
         <br />
+        {id ? (
+          <Button title="Atualizar" typeButton="success" onClick={() => {}} />
+        ) : (
+          <Button
+            title="Salvar"
+            typeButton="success"
+            onClick={() => handleSubmit()}
+          />
+        )}
 
-        <Button
-          title="Salvar"
-          typeButton="success"
-          onClick={() => handleSubmit()}
-        />
         <Button
           title="Cancelar"
           typeButton="danger"
