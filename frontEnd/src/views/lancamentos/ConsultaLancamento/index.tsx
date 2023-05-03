@@ -76,8 +76,6 @@ export const ConsultaLancamento: React.FC = () => {
   };
 
   const handleClickCalcelDeleteRelease = () => {
-    console.log("Clicou em cancelar deletar lançamento ");
-
     setShowConfirmDialog(false);
     setListaDeLancamentoClicado({
       id: 0,
@@ -90,7 +88,6 @@ export const ConsultaLancamento: React.FC = () => {
   };
 
   const handleClickDeleteRelease = () => {
-    console.log("Clicou em deletar lançamento ");
     lancamentosService
       .deletaLancamento(listaDeLancamentoClicado?.id!)
       .then(() => {
