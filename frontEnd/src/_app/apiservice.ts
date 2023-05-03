@@ -18,7 +18,7 @@ export class ApiService {
 
   put(url: string, object: {}) {
     const requestUrl = `${this.apiurl}${url}`;
-    return httpClient.post(requestUrl, object);
+    return httpClient.put(requestUrl, object);
   }
 
   delete(url: string) {
