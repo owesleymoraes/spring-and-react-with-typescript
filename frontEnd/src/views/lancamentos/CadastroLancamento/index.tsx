@@ -81,31 +81,32 @@ export const CadastroDeLancamento: React.FC = () => {
       });
   };
 
-  // const handleUpdate = () => {
-  //   const { descricao, mes, valor, tipo, ano, id, status, usuario } =
-  //     formValues;
-  //   const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
-  //   const releases: FormValuesParams = {
-  //     id: id,
-  //     mes: mes,
-  //     ano: ano,
-  //     tipo: tipo,
-  //     valor: valor,
-  //     status: status,
-  //     usuario: userLogged,
-  //     descricao: descricao,
-  //   };
+  const handleUpdate = () => {
+    const { descricao, mes, valor, tipo, ano, id, status } = formValues;
+    const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
+    const releases: FormValuesParams = {
+      id: id,
+      ano: ano,
+      mes: mes,
+      tipo: tipo,
+      valor: valor,
+      status: status,
+      descricao: descricao,
+      usuario: userLogged.id,
+    };
 
-  //   releaseService
-  //     .atualizaLancamento(releases)
-  //     .then(() => {
-  //       message.showMessageSuccess("Lançamento Atualizado com sucesso!");
-  //       navigate("/consulta-lancamento");
-  //     })
-  //     .catch((error: any) => {
-  //       message.showMessageError(error.response.data);
-  //     });
-  // };
+    console.log(releases);
+
+    releaseService
+      .atualizaLancamento(releases)
+      .then(() => {
+        message.showMessageSuccess("Lançamento Atualizado com sucesso!");
+        navigate("/consulta-lancamento");
+      })
+      .catch((error: any) => {
+        message.showMessageError(error.response.data);
+      });
+  };
 
   useEffect(() => {
     if (id) {
@@ -211,7 +212,11 @@ export const CadastroDeLancamento: React.FC = () => {
         </FieldRegister>
         <br />
         {id ? (
-          <Button title="Atualizar" typeButton="success" onClick={() => {}} />
+          <Button
+            title="Atualizar"
+            typeButton="success"
+            onClick={() => handleUpdate()}
+          />
         ) : (
           <Button
             title="Salvar"
