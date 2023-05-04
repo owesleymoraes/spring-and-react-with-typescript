@@ -28,7 +28,7 @@ export interface FormValuesParams {
 export const CadastroDeLancamento: React.FC = () => {
   const releaseService = new LancamentoService();
 
-  const { id } = useParams();
+  const { idReleaseEdit } = useParams();
   const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState<FormValuesParams>({
@@ -41,6 +41,36 @@ export const CadastroDeLancamento: React.FC = () => {
     status: "",
   });
 
+  const validatedField = () => {
+    let messageFieldValidated = [];
+
+    if (!formValues.descricao) {
+      messageFieldValidated.push("O Campo descrição é obrigatório.");
+    }
+
+    if (!formValues.ano) {
+      messageFieldValidated.push("O Campo ano é obrigatório.");
+    }
+
+    if (!formValues.mes) {
+      messageFieldValidated.push("O Campo mês é obrigatório.");
+    }
+
+    if (!formValues.tipo) {
+      messageFieldValidated.push("O Campo tipo é obrigatório");
+    }
+
+    if (!formValues.valor) {
+      messageFieldValidated.push("O Campo valor é obrigatório");
+    }
+
+    if (!formValues.status) {
+      messageFieldValidated.push("O Campo status é obrigatório");
+    }
+
+    return messageFieldValidated;
+  };
+
   const handleChange = (value: string, name: string) => {
     setFormValues((prevState) => ({
       ...prevState,
@@ -51,6 +81,15 @@ export const CadastroDeLancamento: React.FC = () => {
   const handleSubmit = () => {
     const { descricao, mes, valor, tipo, ano } = formValues;
     const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
+
+    const messageError = validatedField();
+
+    if (messageError && messageError.length > 0) {
+      messageError.forEach((item) => {
+        message.showMessageError(item);
+      });
+      return false;
+    }
 
     const releases: FormValuesParams = {
       ano: ano,
@@ -109,9 +148,9 @@ export const CadastroDeLancamento: React.FC = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (idReleaseEdit) {
       releaseService
-        .obterLancamentoPorId(id)
+        .obterLancamentoPorId(idReleaseEdit)
         .then((response) => {
           setFormValues({ ...response.data });
         })
@@ -123,7 +162,11 @@ export const CadastroDeLancamento: React.FC = () => {
 
   return (
     <ContainerRegister>
-      <Card title="Cadastro de Lançamento">
+      <Card
+        title={
+          idReleaseEdit ? "Atualizar Lançamento" : "Cadastro de Lançamento"
+        }
+      >
         <FieldRegister widthField={6}>
           <Input
             value={formValues.descricao!}
@@ -211,7 +254,7 @@ export const CadastroDeLancamento: React.FC = () => {
           />
         </FieldRegister>
         <br />
-        {id ? (
+        {idReleaseEdit ? (
           <Button
             title="Atualizar"
             typeButton="success"
