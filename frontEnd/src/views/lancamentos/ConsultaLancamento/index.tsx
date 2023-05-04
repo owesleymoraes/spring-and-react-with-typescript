@@ -66,8 +66,8 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
-  const handleClickEditRelease = (id: number) => {
-    navigate(`/cadastro-lancamento/${id}`);
+  const handleClickEditRelease = (idReleaseEdit: number) => {
+    navigate(`/cadastro-lancamento/${idReleaseEdit}`);
   };
 
   const handleOpenConfirmDeleteRelease = (release: lancamentosResponse) => {
