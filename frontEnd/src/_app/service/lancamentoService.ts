@@ -54,6 +54,10 @@ export class LancamentoService extends ApiService {
     return this.put(`/${lancamentos.id}`, lancamentos);
   }
 
+  alteraStatus(id: number, status: string) {
+    return this.put(`/${id}/atualiza-status`,{ status});
+  }
+
   deletaLancamento(id: number) {
     return this.delete(`/${id}`);
   }
