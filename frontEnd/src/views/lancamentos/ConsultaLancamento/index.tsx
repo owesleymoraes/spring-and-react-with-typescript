@@ -66,8 +66,27 @@ export const ConsultaLancamento: React.FC = () => {
       });
   };
 
-  const handleClickEditRelease = (id: number) => {
-    navigate(`/cadastro-lancamento/${id}`);
+  const handleAlterStatus = (release: lancamentosResponse, status: string) => {
+    lancamentosService
+      .alteraStatus(release.id, status)
+      .then((response) => {
+        const lancamentos = lancamentoResponseApi;
+        const index = lancamentos.indexOf(release);
+        if (index !== -1) {
+          release["status"] = status;
+          lancamentos[index] = release;
+          setLancamentoResponseApi(lancamentos);
+        }
+        showMessageSuccess("Status atualizado com sucesso");
+        handleClickConsult()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClickEditRelease = (idReleaseEdit: number) => {
+    navigate(`/cadastro-lancamento/${idReleaseEdit}`);
   };
 
   const handleOpenConfirmDeleteRelease = (release: lancamentosResponse) => {
@@ -168,6 +187,7 @@ export const ConsultaLancamento: React.FC = () => {
 
         <LancamentoTable
           releases={lancamentoResponseApi}
+          onAlterStatus={handleAlterStatus}
           onEditRelease={handleClickEditRelease}
           onDeleteRelease={handleOpenConfirmDeleteRelease}
         />

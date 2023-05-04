@@ -15,10 +15,9 @@ export const AppRoute: React.FC = () => {
         <Route path="/cadastrar" element={<CadastroUsuario />} />
         <Route path="/consulta-lancamento" element={<ConsultaLancamento />} />
         <Route
-          path="/cadastro-lancamento/:id"
+          path="/cadastro-lancamento/:idReleaseEdit?"
           element={<CadastroDeLancamento />}
         />
-        <Route path="/cadastro-lancamento" element={<CadastroDeLancamento />} />
       </Routes>
     </BrowserRouter>
   );
