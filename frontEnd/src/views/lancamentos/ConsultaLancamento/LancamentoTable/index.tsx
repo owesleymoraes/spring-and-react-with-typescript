@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import { Button } from "../../../../components/Button";
 import { FieldRegister } from "../../../../components/FieldRegister";
 
@@ -29,7 +29,6 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
     currency: "BRL",
   });
 
-  
   return (
     <FieldRegister widthField={12} typeColumn="md">
       <table className="table table-hover">
@@ -54,30 +53,35 @@ export const LancamentoTable: React.FC<LancamentoTableProps> = ({
                 <td>{item.status}</td>
                 <td>
                   <Button
-                    title="Efetivar"
+                    icon="check"
                     typeButton="success"
+                    onMouseInformation="Efetivar"
+                    enabledButton={item.status !== "PENDENTE"}
                     onClick={() => {
                       onAlterStatus(item, "EFETIVADO");
                     }}
                   />
-
                   <Button
-                    title="Cancelar"
+                    icon="times"
+                    enabledButton={item.status !== "PENDENTE"}
                     typeButton="warning"
+                    onMouseInformation="Cancelar"
                     onClick={() => {
                       onAlterStatus(item, "CANCELADO");
                     }}
                   />
                   <Button
-                    title="Editar"
+                    icon="pencil"
+                    onMouseInformation="Editar"
                     typeButton="primary"
                     onClick={() => {
                       onEditRelease(item.id!);
                     }}
                   />
                   <Button
-                    title="Deletar"
+                    icon="trash"
                     typeButton="danger"
+                    onMouseInformation="Deletar"
                     onClick={() => {
                       onDeleteRelease(item);
                     }}

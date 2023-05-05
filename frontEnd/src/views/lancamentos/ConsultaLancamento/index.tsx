@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
+  showMessageWarning,
 } from "../../../components/Toastr";
 import { Card } from "../../../components/Card";
 import {
@@ -59,6 +60,9 @@ export const ConsultaLancamento: React.FC = () => {
     lancamentosService
       .consultaLancamento(lancamentoFiltro)
       .then((response) => {
+        if (response.data.length < 1) {
+          showMessageWarning("Nenhum resultado encontrado.");
+        }
         setLancamentoResponseApi(response.data);
       })
       .catch((error) => {
@@ -78,7 +82,7 @@ export const ConsultaLancamento: React.FC = () => {
           setLancamentoResponseApi(lancamentos);
         }
         showMessageSuccess("Status atualizado com sucesso");
-        handleClickConsult()
+        handleClickConsult();
       })
       .catch((error) => {
         console.log(error);
@@ -174,11 +178,13 @@ export const ConsultaLancamento: React.FC = () => {
           <Button
             enabledButton={enableButton}
             title="Buscar"
+            icon="search"
             typeButton="success"
             onClick={handleClickConsult}
           />
           <Button
             title="Cadastrar"
+            icon="plus"
             typeButton="danger"
             onClick={() => navigate("/cadastro-lancamento")}
           />

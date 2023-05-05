@@ -257,12 +257,14 @@ export const CadastroDeLancamento: React.FC = () => {
         {idReleaseEdit ? (
           <Button
             title="Atualizar"
+            icon="refresh"
             typeButton="success"
             onClick={() => handleUpdate()}
           />
         ) : (
           <Button
             title="Salvar"
+            icon="save"
             typeButton="success"
             onClick={() => handleSubmit()}
           />
@@ -270,6 +272,7 @@ export const CadastroDeLancamento: React.FC = () => {
 
         <Button
           title="Cancelar"
+          icon="times"
           typeButton="danger"
           onClick={() => navigate("/consulta-lancamento")}
         />

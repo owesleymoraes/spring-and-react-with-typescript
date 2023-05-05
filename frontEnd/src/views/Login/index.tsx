@@ -61,11 +61,13 @@ export const Login: React.FC = () => {
 
         <Button
           title="Entrar"
+          icon="sign-in"
           typeButton="success"
           onClick={handleClickEntry}
         />
         <Button
           title="Cadastrar"
+          icon="plus"
           typeButton="danger"
           onClick={handleClickRegister}
         />
