@@ -7,6 +7,8 @@ import "bootswatch/dist/flatly/bootstrap.css";
 import "primereact/resources/primereact.min.css";
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+//icons
+import "primeicons/primeicons.css";
 
 export const App: React.FC = () => {
   return (

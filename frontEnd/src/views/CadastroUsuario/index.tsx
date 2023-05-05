@@ -164,11 +164,13 @@ export const CadastroUsuario: React.FC = () => {
 
           <Button
             title="Salvar"
+            icon="save"
             typeButton="success"
             onClick={handleClickRegister}
           />
           <Button
             title="Voltar"
+            icon="backward"
             typeButton="danger"
             onClick={handleClickGoBack}
           />

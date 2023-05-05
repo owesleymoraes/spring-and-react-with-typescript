@@ -1,10 +1,12 @@
 import React from "react";
-import './styles.css'
+import "./styles.css";
 
 interface ButtonProps {
-  title: string;
-  onClick: () => void;
+  title?: string;
+  icon?: string;
   enabledButton?: boolean;
+  onMouseInformation?: string;
+  onClick: () => void;
   typeButton:
     | "success"
     | "primary"
@@ -19,10 +21,12 @@ interface ButtonProps {
 }
 
 export const Button: React.FC<ButtonProps> = ({
+  icon,
   title,
   onClick,
   typeButton,
   enabledButton,
+  onMouseInformation,
 }) => {
   return (
     <button
@@ -30,8 +34,9 @@ export const Button: React.FC<ButtonProps> = ({
       type="button"
       className={`btn btn-${typeButton}`}
       disabled={enabledButton}
+      title={onMouseInformation}
     >
-      {title}
+      <i className={`pi pi-${icon}`}></i> {title}
     </button>
   );
 };
