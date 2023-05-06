@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../_context";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Container } from "../../components/Container";
+import { showMessageError } from "../../components/Toastr";
 import { UsuarioService } from "../../_app/service/userService";
 import { LocalStorageService } from "../../_app/service/localStorageService";
-import { showMessageError } from "../../components/Toastr";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { setUserIsLogged } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
   const service = new UsuarioService();
 
@@ -23,7 +25,10 @@ export const Login: React.FC = () => {
       .then((response) => {
         setUserId(JSON.stringify(response.data.id));
         LocalStorageService.addItemLocalStorage("user_logged", response.data);
-        navigate("/home");
+        setUserIsLogged(true);
+        setTimeout(() => {
+          navigate("/home");
+        }, 300);
       })
       .catch((error) => {
         showMessageError(error.response.data);

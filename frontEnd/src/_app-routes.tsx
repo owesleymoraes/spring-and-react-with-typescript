@@ -1,28 +1,59 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Home } from "./views/Home";
 import { Login } from "./views/Login";
-import { AuthProvider, useAuth } from "./_context";
+import { AuthContext } from "./_context";
+import { AuthService } from "./_app/service/authService";
 import { CadastroUsuario } from "./views/CadastroUsuario";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ConsultaLancamento } from "./views/lancamentos/ConsultaLancamento";
 import { CadastroDeLancamento } from "./views/lancamentos/CadastroLancamento";
 
-
 export const AppRoute: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { setUserIsLogged } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (AuthService.isUserAuthenticated()) {
+      setUserIsLogged(true);
+    }
+  }, []);
 
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>      
-          <Route path="/" element={<Login />} />
-          <Route path="/cadastrar" element={<CadastroUsuario />} />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastrar" element={<CadastroUsuario />} />
 
-          <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}/>
-          <Route path="/consulta-lancamento" element={isAuthenticated ? <ConsultaLancamento /> : <Navigate to="/" replace />}/>
-          <Route path="/cadastro-lancamento/:idReleaseEdit?" element={isAuthenticated ? <CadastroDeLancamento /> : <Navigate to="/" replace />}/>
-        </Routes>
-      </AuthProvider>
+        <Route
+          path="/home"
+          element={
+            AuthService.isUserAuthenticated() ? (
+              <Home />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/consulta-lancamento"
+          element={
+            AuthService.isUserAuthenticated() ? (
+              <ConsultaLancamento />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/cadastro-lancamento/:idReleaseEdit?"
+          element={
+            AuthService.isUserAuthenticated() ? (
+              <CadastroDeLancamento />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 };
