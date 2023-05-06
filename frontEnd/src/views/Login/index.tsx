@@ -14,7 +14,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
-  
+
   const service = new UsuarioService();
 
   const handleClickEntry = () => {
@@ -48,6 +48,7 @@ export const Login: React.FC = () => {
           name="email"
         />
 
+        <br />
         <Input
           value={password}
           onChangeValue={(e) => setPassword(e)}
@@ -58,6 +59,7 @@ export const Login: React.FC = () => {
           ariaDescribedby="password"
           name="password"
         />
+        <br />
 
         <Button
           title="Entrar"
