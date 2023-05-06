@@ -111,7 +111,7 @@ export const CadastroUsuario: React.FC = () => {
   };
 
   const handleClickGoBack = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   return (
