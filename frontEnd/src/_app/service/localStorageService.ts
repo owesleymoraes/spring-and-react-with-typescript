@@ -8,4 +8,8 @@ export class LocalStorageService {
   static getItemLocalStorage(key: string) {
     return JSON.parse(localStorage.getItem(key)!);
   }
+
+  static removeUserKeyLocalStorage(key: string) {
+    localStorage.removeItem(key);
+  }
 }
