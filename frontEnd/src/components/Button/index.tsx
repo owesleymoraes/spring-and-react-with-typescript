@@ -23,10 +23,10 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   icon,
   title,
-  onClick,
   typeButton,
   enabledButton,
   onMouseInformation,
+  onClick,
 }) => {
   return (
     <button
