@@ -59,8 +59,18 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public boolean isTokenValido(String token) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			
+			Claims claims = obterClaims(token);
+			Date estaDataEstaExpirada = claims.getExpiration();
+			LocalDateTime dataExpiracao = estaDataEstaExpirada.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			
+			return !LocalDateTime.now().isAfter(dataExpiracao);
+			
+		} catch ( ExpiredJwtException e) {
+			return false;
+		}
+		
 	}
 
 	@Override
