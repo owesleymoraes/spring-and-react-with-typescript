@@ -44,11 +44,17 @@ public class JwtServiceImpl implements JwtService {
 							.compact();
 		return token;
 	}
+	
+	//Claims- São informações geradas no token
 
 	@Override
 	public Claims obterClaims(String token) throws ExpiredJwtException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return Jwts
+				.parser()
+				.setSigningKey(chaveAssinatura)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 
 	@Override
