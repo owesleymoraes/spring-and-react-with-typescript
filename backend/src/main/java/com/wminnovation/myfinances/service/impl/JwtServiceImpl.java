@@ -75,8 +75,8 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public String obterLoginUsuario(String token) {
-		// TODO Auto-generated method stub
-		return null;
+		Claims claims = obterClaims(token);
+		return claims.getSubject();
 	}
 
 }
