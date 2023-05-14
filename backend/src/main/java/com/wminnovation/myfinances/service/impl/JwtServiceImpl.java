@@ -1,25 +1,31 @@
 package com.wminnovation.myfinances.service.impl;
 
+import java.util.Date;
+import java.time.ZoneId;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.service.JwtService;
+import com.wminnovation.myfinances.model.entity.Usuario;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.ExpiredJwtException;
 
+
+@Service
 public class JwtServiceImpl implements JwtService {
 
+	
 	@Value("${jwt.expiracao}")
 	private String expriracaoToken;
+	
 	
 	@Value("${jwt.chave-assinatura}")
 	private String chaveAssinatura;
