@@ -29,7 +29,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			
 			String token = authorization.split(" ")[1];
 			
-			boolean isTokenValid = jwtService.isTokenValido(token);
+		
 			
 
 		}
