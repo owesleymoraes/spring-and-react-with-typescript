@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wminnovation.myfinances.api.dto.TokenDTO;
-import com.wminnovation.myfinances.service.JwtService;
+
+import com.wminnovation.myfinances.service.TokenService;
 import com.wminnovation.myfinances.api.dto.UsuarioDTO;
 import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.service.UsuarioService;
@@ -33,29 +33,26 @@ import com.wminnovation.myfinances.exception.RegraNegocioException;
 @RequiredArgsConstructor
 public class UsuarioResource {
 
-	private final JwtService jwtService;
 	private final UsuarioService service;
 	private final LancamentoService lancamentoService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private TokenService tokenService;
 
 	@PostMapping("/autenticar")
-	public ResponseEntity<?> autenticarUsuario(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<String> autenticarUsuario(@RequestBody UsuarioDTO dto) {
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 					dto.getEmail(), dto.getSenha());
 			Authentication authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
 			Usuario usuarioAutenticado = (Usuario) authenticate.getPrincipal();
-
-			return null;
-			// Usuario usuarioAutenticado = service.autenticar(dto.getEmail(),
-			// dto.getSenha());
-			// String token = jwtService.gerarToken(usuarioAutenticado);
-			// TokenDTO tokenDTO = new TokenDTO(usuarioAutenticado.getNome(), token);
-
-			// return ResponseEntity.ok(tokenDTO);
+			 String tokenDTO = tokenService.gerarToken(usuarioAutenticado);
+			return ResponseEntity.ok(tokenDTO);
+			
 		} catch (ErroDeAutenticacao e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
