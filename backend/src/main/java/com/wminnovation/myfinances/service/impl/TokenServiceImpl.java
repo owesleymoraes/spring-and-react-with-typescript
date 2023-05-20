@@ -25,5 +25,15 @@ public class TokenServiceImpl implements TokenService {
 				.withExpiresAt(Date.from(expiresAt)).sign(Algorithm.HMAC256("secreta"));
 
 	}
+	
+
+	@Override
+	public String getSubject(String token) {
+		
+		return JWT.require(Algorithm.HMAC256("secreta"))
+				.withIssuer("Produtos")
+				.build().verify(token).getSubject();
+		
+	}
 
 }
