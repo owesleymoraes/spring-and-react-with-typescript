@@ -2,15 +2,15 @@ package com.wminnovation.myfinances.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
+import com.wminnovation.myfinances.service.UsuarioService;
+import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.exception.ErroDeAutenticacao;
 import com.wminnovation.myfinances.exception.RegraNegocioException;
-import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.model.repository.UsuarioRepository;
-import com.wminnovation.myfinances.service.UsuarioService;
 
 import jakarta.transaction.Transactional;
 
