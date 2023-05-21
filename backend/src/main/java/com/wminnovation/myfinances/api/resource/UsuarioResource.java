@@ -54,6 +54,7 @@ public class UsuarioResource {
 			return ResponseEntity.ok(tokenDTO);
 			
 		} catch (ErroDeAutenticacao e) {
+		
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
