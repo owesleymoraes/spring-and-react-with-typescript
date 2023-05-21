@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -42,8 +43,11 @@ public class SecurityConfiguration {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable().authorizeHttpRequests().and().authorizeHttpRequests()
 				.requestMatchers(HttpMethod.POST, "/api/usuarios/autenticar").permitAll()
-				.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll().anyRequest().authenticated().and()
-				.sessionManagement().sessionCreationPolicy((SessionCreationPolicy.STATELESS)).and()
+				.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.sessionManagement().sessionCreationPolicy((SessionCreationPolicy.STATELESS))
+				.and()
 				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
