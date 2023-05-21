@@ -9,9 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.model.repository.UsuarioRepository;
+import com.wminnovation.myfinances.service.impl.AuthenticationService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,6 +28,9 @@ public class FilterToken extends OncePerRequestFilter {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	AuthenticationService authenticationService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -33,12 +38,12 @@ public class FilterToken extends OncePerRequestFilter {
 		String token;
 
 		String authorizationHeader = request.getHeader("Authorization");
-		token = authorizationHeader.replace("Bearer ", "");
-		System.out.println("Aqui o token: --------------"+ token);
+		token = authorizationHeader;
+		
 
-		/**
-		 * if (authorizationHeader != null) {
+		  if (authorizationHeader != null && authorizationHeader.startsWith("Bearer") ) {
 			token = authorizationHeader.replace("Bearer ", "");
+			token = authorizationHeader.split(" ")[1];
 
 			String subject = this.tokenService.getSubject(token);
 
@@ -46,11 +51,12 @@ public class FilterToken extends OncePerRequestFilter {
 
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario.get(),
 					null, usuario.get().getAuthorities());
-
+			
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		}
-		 */
+		 
 
 		filterChain.doFilter(request, response);
 
