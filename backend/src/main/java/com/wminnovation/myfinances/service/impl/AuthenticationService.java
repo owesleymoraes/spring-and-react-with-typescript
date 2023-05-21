@@ -1,6 +1,5 @@
 package com.wminnovation.myfinances.service.impl;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +19,9 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+		Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email não cadastrado"));
 
-		return usuario.get();
+		return usuario;
 	}
 
 }

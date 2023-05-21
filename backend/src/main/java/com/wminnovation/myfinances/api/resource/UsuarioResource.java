@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.wminnovation.myfinances.service.TokenService;
+import com.wminnovation.myfinances.api.dto.TokenDTO;
 import com.wminnovation.myfinances.api.dto.UsuarioDTO;
 import com.wminnovation.myfinances.model.entity.Usuario;
 import com.wminnovation.myfinances.service.UsuarioService;
@@ -43,14 +44,15 @@ public class UsuarioResource {
 	private TokenService tokenService;
 
 	@PostMapping("/autenticar")
-	public ResponseEntity<String> autenticarUsuario(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<?> autenticarUsuario(@RequestBody UsuarioDTO dto) {
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 					dto.getEmail(), dto.getSenha());
 			Authentication authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
 			Usuario usuarioAutenticado = (Usuario) authenticate.getPrincipal();
-			 String tokenDTO = tokenService.gerarToken(usuarioAutenticado);
+			 String token = tokenService.gerarToken(usuarioAutenticado);
+			 TokenDTO tokenDTO = new TokenDTO(usuarioAutenticado.getNome(),token);
 			return ResponseEntity.ok(tokenDTO);
 			
 		} catch (ErroDeAutenticacao e) {

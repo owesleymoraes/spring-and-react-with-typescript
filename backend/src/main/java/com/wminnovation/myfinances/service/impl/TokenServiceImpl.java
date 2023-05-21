@@ -17,7 +17,7 @@ import com.wminnovation.myfinances.service.TokenService;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-	LocalDateTime now = LocalDateTime.now().plusMinutes(10);
+	LocalDateTime now = LocalDateTime.now().plusMinutes(30);
 	Instant expiresAt = now.atOffset(ZoneOffset.of("-03:00")).toInstant();
 
 	@Override
