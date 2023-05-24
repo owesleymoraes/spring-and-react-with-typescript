@@ -1,7 +1,9 @@
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 const httpClient = axios.create({
   baseURL: "http://localhost:8080",
+  withCredentials: true,
 });
 
 export class ApiService {
@@ -9,6 +11,13 @@ export class ApiService {
 
   constructor(apiurl: string) {
     this.apiurl = apiurl;
+  }
+
+  static registrarToken(token: string) {
+    if (token) {
+      httpClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+     
+    }
   }
 
   post(url: string, object: {}) {
