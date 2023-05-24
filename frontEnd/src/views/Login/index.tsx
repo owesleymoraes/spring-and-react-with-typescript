@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import jwt from "jsonwebtoken";
 import { AuthContext } from "../../_context";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
+import { ApiService } from "../../_app/apiservice";
 import { Container } from "../../components/Container";
 import { showMessageError } from "../../components/Toastr";
 import { UsuarioService } from "../../_app/service/userService";
@@ -11,20 +13,34 @@ import { LocalStorageService } from "../../_app/service/localStorageService";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { setUserIsLogged } = useContext(AuthContext);
+  const { setUserIsLogged, changeTokenLogged, tokenLogged, userIsLogged } =
+    useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const service = new UsuarioService();
+  useEffect(() => {
+    if (tokenLogged) {
+      // ver se o token está expirado
+      const { exp } = jwt.decode(tokenLogged) as {exp: number;};
+      const { sub } = jwt.decode(tokenLogged) as {sub: string;};
+    }
+  }, [tokenLogged]);
 
   const handleClickEntry = () => {
     service
       .autenticar({ email: email, senha: password })
       .then((response) => {
         setUserId(JSON.stringify(response.data.id));
-        LocalStorageService.addItemLocalStorage("user_logged", response.data);
+        ApiService.registrarToken(response.data.token);
+        LocalStorageService.addItemLocalStorage(
+          "user_logged",
+          response.data.token
+        );
+
+        changeTokenLogged(response.data.token);
         setUserIsLogged(true);
         setTimeout(() => {
           navigate("/home");
