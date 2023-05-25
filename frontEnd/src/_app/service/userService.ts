@@ -9,7 +9,7 @@ export class UsuarioService extends ApiService {
     return this.post("/autenticar", payload);
   }
 
-  obterSaldoPorUsuario(id: number) {
+  obterSaldoPorUsuario(id: string) {
     return this.get(`/${id}/saldo`);
   }
 

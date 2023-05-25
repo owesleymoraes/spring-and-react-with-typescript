@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwt from "jsonwebtoken";
 
 const httpClient = axios.create({
   baseURL: "http://localhost:8080",

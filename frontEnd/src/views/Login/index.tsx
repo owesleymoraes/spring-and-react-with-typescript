@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import jwt from "jsonwebtoken";
+import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../_context";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
@@ -13,8 +13,12 @@ import { LocalStorageService } from "../../_app/service/localStorageService";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { setUserIsLogged, changeTokenLogged, tokenLogged, userIsLogged } =
-    useContext(AuthContext);
+  const {
+    tokenLogged,
+    setUserIsLogged,
+    changeTokenLogged,
+    changeUserIdLogged,
+  } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
@@ -23,9 +27,8 @@ export const Login: React.FC = () => {
   const service = new UsuarioService();
   useEffect(() => {
     if (tokenLogged) {
-      // ver se o token está expirado
-      const { exp } = jwt.decode(tokenLogged) as {exp: number;};
-      const { sub } = jwt.decode(tokenLogged) as {sub: string;};
+      const claims: { [key: string]: any } = jwt_decode(tokenLogged);
+      changeUserIdLogged(claims.userid);
     }
   }, [tokenLogged]);
 
