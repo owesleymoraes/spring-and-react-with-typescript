@@ -5,6 +5,8 @@ interface UserContextProps {
   setUserIsLogged: (value: boolean) => void;
   tokenLogged: string | null;
   changeTokenLogged: (value: string) => void;
+  userIdLogged: string | null;
+  changeUserIdLogged: (value: string) => void;
 }
 
 interface ChildrenProps {
@@ -16,14 +18,21 @@ const AuthContext = createContext<UserContextProps>({
   setUserIsLogged: () => {},
   tokenLogged: "",
   changeTokenLogged: (value: string) => {},
+  userIdLogged: "",
+  changeUserIdLogged: (value: string) => {},
 });
 
 const AuthContextProvider = ({ children }: ChildrenProps) => {
-  const [userIsLogged, setUserIsLogged] = useState(false);
   const [tokenLogged, setTokenLogged] = useState("");
+  const [userIdLogged, setUserIdLogged] = useState("");
+  const [userIsLogged, setUserIsLogged] = useState(false);
 
   const changeTokenLogged = (value: string) => {
     setTokenLogged(value);
+  };
+
+  const changeUserIdLogged = (value: string) => {
+    setUserIdLogged(value);
   };
 
   const value: UserContextProps = {
@@ -31,6 +40,8 @@ const AuthContextProvider = ({ children }: ChildrenProps) => {
     setUserIsLogged,
     tokenLogged,
     changeTokenLogged,
+    userIdLogged,
+    changeUserIdLogged
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
