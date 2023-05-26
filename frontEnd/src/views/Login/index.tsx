@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../_context";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
@@ -25,12 +25,12 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const service = new UsuarioService();
-  useEffect(() => {
-    if (tokenLogged) {
-      const claims: { [key: string]: any } = jwt_decode(tokenLogged);
-      changeUserIdLogged(claims.userid);
-    }
-  }, [tokenLogged]);
+  // useEffect(() => {
+  //   if (tokenLogged) {
+  //     const claims: { [key: string]: any } = jwt_decode(tokenLogged);
+  //     changeUserIdLogged(claims.userid);
+  //   }
+  // }, [tokenLogged]);
 
   const handleClickEntry = () => {
     service
