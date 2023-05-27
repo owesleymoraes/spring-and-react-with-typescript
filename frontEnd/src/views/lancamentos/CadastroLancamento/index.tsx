@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { months } from "../../../_utils/months";
+import { AuthContext } from "../../../_context";
 import { Card } from "../../../components/Card";
 import { status } from "../../../_utils/status";
 import { Input } from "../../../components/Input";
@@ -9,11 +10,11 @@ import { Button } from "../../../components/Button";
 import * as message from "../../../components/Toastr";
 import { useNavigate, useParams } from "react-router-dom";
 import { releaseTypes } from "../../../_utils/typesRelease";
+import { AuthService } from "../../../_app/service/authService";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoService } from "../../../_app/service/lancamentoService";
-import { LocalStorageService } from "../../../_app/service/localStorageService";
-import { AuthContext } from "../../../_context";
+
 
 export interface FormValuesParams {
   id?: null;
@@ -31,8 +32,7 @@ export const CadastroDeLancamento: React.FC = () => {
 
   const { idReleaseEdit } = useParams();
   const navigate = useNavigate();
-  const {claimsTokenLogged} = useContext(AuthContext)
-
+  
   const [formValues, setFormValues] = useState<FormValuesParams>({
     usuario: "",
     ano: "",
@@ -80,7 +80,7 @@ export const CadastroDeLancamento: React.FC = () => {
     }));
   };
   
-  const userLogged: { [key: string]: any } = claimsTokenLogged 
+  const userLogged = AuthService.isUserAuthenticated()
   const handleSubmit = () => {
     const { descricao, mes, valor, tipo, ano } = formValues;
 
@@ -93,14 +93,14 @@ export const CadastroDeLancamento: React.FC = () => {
       return false;
     }
 
-    console.log(userLogged.userid);
+    console.log(userLogged!);
     
     const releases: FormValuesParams = {
       ano: ano,
       mes: mes,
       tipo: tipo,
       valor: valor,
-      usuario: userLogged.userid,
+      usuario: userLogged,
       descricao: descricao,
     };
 
@@ -126,7 +126,6 @@ export const CadastroDeLancamento: React.FC = () => {
 
   const handleUpdate = () => {
     const { descricao, mes, valor, tipo, ano, id, status } = formValues;
-    const userLogged: { [key: string]: any } = claimsTokenLogged 
     const releases: FormValuesParams = {
       id: id,
       ano: ano,
@@ -135,7 +134,7 @@ export const CadastroDeLancamento: React.FC = () => {
       valor: valor,
       status: status,
       descricao: descricao,
-      usuario: userLogged.id,
+      usuario: userLogged,
     };
 
     releaseService

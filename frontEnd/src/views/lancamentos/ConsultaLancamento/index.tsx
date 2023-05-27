@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
@@ -16,16 +16,15 @@ import { ModalConfirm } from "../components/Modal";
 import { Button } from "../../../components/Button";
 import { Select } from "../../../components/Select";
 import { releaseTypes } from "../../../_utils/typesRelease";
+import { AuthService } from "../../../_app/service/authService";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
-import { AuthContext } from "../../../_context";
 
 export const ConsultaLancamento: React.FC = () => {
   const lancamentosService = new LancamentoService();
-  const { claimsTokenLogged } = useContext(AuthContext);
 
-  const userLogger: { [key: string]: any } = claimsTokenLogged;
+  const userLogger = AuthService.isUserAuthenticated();
 
   const [ano, setAno] = useState<string>("");
   const [mes, setMes] = useState<string>();
@@ -49,13 +48,18 @@ export const ConsultaLancamento: React.FC = () => {
 
   let enableButton = ano ? false : true;
 
+  
   const handleClickConsult = () => {
+    console.log(userLogger);
+    console.log(ano);
+    console.log(mes);
+    console.log(descricao);
     const lancamentoFiltro: lancamentos = {
       ano: Number(ano),
       mes: Number(mes),
       tipo: tipo!,
       descricao: descricao,
-      usuarioId: userLogger?.id,
+      usuarioId: userLogger,
     };
 
     lancamentosService
