@@ -1,19 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import {AuthContext} from '../../_context'
 import { UsuarioService } from "../../_app/service/userService";
-
+import { AuthService } from "../../_app/service/authService";
 
 export const Home: React.FC = () => {
-  const {claimsTokenLogged} = useContext(AuthContext)
   const [balance, setBalance] = useState(0);
 
   const usuarioService = new UsuarioService();
 
   useEffect(() => {
-    const userLogger: { [key: string]: any } = claimsTokenLogged 
-
+    const userLogger = AuthService.isUserAuthenticated();
+    
     usuarioService
-      .obterSaldoPorUsuario(userLogger?.userid!)
+      .obterSaldoPorUsuario(userLogger!)
       .then((response) => {
         setBalance(response.data);
       })
