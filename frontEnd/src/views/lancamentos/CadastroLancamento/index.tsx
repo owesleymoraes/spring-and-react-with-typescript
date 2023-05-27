@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { months } from "../../../_utils/months";
 import { Card } from "../../../components/Card";
@@ -13,6 +13,7 @@ import { FieldRegister } from "../../../components/FieldRegister";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
 import { LancamentoService } from "../../../_app/service/lancamentoService";
 import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { AuthContext } from "../../../_context";
 
 export interface FormValuesParams {
   id?: null;
@@ -30,6 +31,7 @@ export const CadastroDeLancamento: React.FC = () => {
 
   const { idReleaseEdit } = useParams();
   const navigate = useNavigate();
+  const {claimsTokenLogged} = useContext(AuthContext)
 
   const [formValues, setFormValues] = useState<FormValuesParams>({
     usuario: "",
@@ -77,10 +79,10 @@ export const CadastroDeLancamento: React.FC = () => {
       [name]: value,
     }));
   };
-
+  
+  const userLogged: { [key: string]: any } = claimsTokenLogged 
   const handleSubmit = () => {
     const { descricao, mes, valor, tipo, ano } = formValues;
-    const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
 
     const messageError = validatedField();
 
@@ -91,12 +93,14 @@ export const CadastroDeLancamento: React.FC = () => {
       return false;
     }
 
+    console.log(userLogged.userid);
+    
     const releases: FormValuesParams = {
       ano: ano,
       mes: mes,
       tipo: tipo,
       valor: valor,
-      usuario: userLogged.id,
+      usuario: userLogged.userid,
       descricao: descricao,
     };
 
@@ -122,7 +126,7 @@ export const CadastroDeLancamento: React.FC = () => {
 
   const handleUpdate = () => {
     const { descricao, mes, valor, tipo, ano, id, status } = formValues;
-    const userLogged = LocalStorageService.getItemLocalStorage("user_logged");
+    const userLogged: { [key: string]: any } = claimsTokenLogged 
     const releases: FormValuesParams = {
       id: id,
       ano: ano,
@@ -133,8 +137,6 @@ export const CadastroDeLancamento: React.FC = () => {
       descricao: descricao,
       usuario: userLogged.id,
     };
-
-    console.log(releases);
 
     releaseService
       .atualizaLancamento(releases)
