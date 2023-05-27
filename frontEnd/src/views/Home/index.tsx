@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import {AuthContext} from '../../_context'
 import { UsuarioService } from "../../_app/service/userService";
-import { LocalStorageService } from "../../_app/service/localStorageService";
+
 
 export const Home: React.FC = () => {
-  const {userIdLogged} = useContext(AuthContext)
+  const {claimsTokenLogged} = useContext(AuthContext)
   const [balance, setBalance] = useState(0);
 
   const usuarioService = new UsuarioService();
 
   useEffect(() => {
-    // const userLogger = LocalStorageService.getItemLocalStorage("user_logged");
+    const userLogger: { [key: string]: any } = claimsTokenLogged 
 
     usuarioService
-      .obterSaldoPorUsuario(userIdLogged!)
+      .obterSaldoPorUsuario(userLogger?.userid!)
       .then((response) => {
         setBalance(response.data);
       })

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-// import jwt_decode from "jwt-decode";
+import React, { useContext, useState } from "react";
+import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../_context";
 import { Card } from "../../components/Card";
 import { Input } from "../../components/Input";
@@ -13,37 +13,25 @@ import { LocalStorageService } from "../../_app/service/localStorageService";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const {
-    tokenLogged,
-    setUserIsLogged,
-    changeTokenLogged,
-    changeUserIdLogged,
-  } = useContext(AuthContext);
+  const { setUserIsLogged, getClaimsTokenLogged } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
-  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const service = new UsuarioService();
-  // useEffect(() => {
-  //   if (tokenLogged) {
-  //     const claims: { [key: string]: any } = jwt_decode(tokenLogged);
-  //     changeUserIdLogged(claims.userid);
-  //   }
-  // }, [tokenLogged]);
 
   const handleClickEntry = () => {
     service
       .autenticar({ email: email, senha: password })
       .then((response) => {
-        setUserId(JSON.stringify(response.data.id));
-        ApiService.registrarToken(response.data.token);
         LocalStorageService.addItemLocalStorage(
           "user_logged",
           response.data.token
         );
+        ApiService.registrarToken(response.data.token);
 
-        changeTokenLogged(response.data.token);
+        const claims: { [key: string]: any } = jwt_decode(response.data.token);
+        getClaimsTokenLogged(claims);
         setUserIsLogged(true);
         setTimeout(() => {
           navigate("/home");

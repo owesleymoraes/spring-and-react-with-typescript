@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   showMessageError,
   showMessageSuccess,
@@ -19,12 +19,13 @@ import { releaseTypes } from "../../../_utils/typesRelease";
 import { FieldRegister } from "../../../components/FieldRegister";
 import { LancamentoTable, lancamentosResponse } from "./LancamentoTable";
 import { ContainerRegister } from "../../../components/ConatinerRegister";
-import { LocalStorageService } from "../../../_app/service/localStorageService";
+import { AuthContext } from "../../../_context";
 
 export const ConsultaLancamento: React.FC = () => {
   const lancamentosService = new LancamentoService();
+  const { claimsTokenLogged } = useContext(AuthContext);
 
-  const userLogger = LocalStorageService.getItemLocalStorage("user_logged");
+  const userLogger: { [key: string]: any } = claimsTokenLogged;
 
   const [ano, setAno] = useState<string>("");
   const [mes, setMes] = useState<string>();
